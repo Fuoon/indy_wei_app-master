@@ -1,0 +1,67 @@
+<header class="navbar navbar-inverse">
+      <div class="navbar-inner">
+	      <div class="nav pull-left">
+	      	<%= link_to image_tag("indy_wei_logo.png", alt: "IndyCrew" , id: "logo"), root_path %>
+	      </div>
+	      <div class="container">
+	      	<ul class="nav nav-pills nav pull-left">
+		      	<li><%= link_to "Home",    root_path %></li>
+		      	<li id="fat-menu" class="dropdown">
+	              		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                		Games <b class="caret"></b>
+	              		</a>
+	              		<ul class="dropdown-menu">
+	              			<li><%= link_to "Games",    games_path %></li>
+	              			<li><%= link_to "Share a Game", new_game_path %></li>
+	              			<li><%= link_to "Game You Uploaded",    games_path %></li>
+	              		</ul>
+            	</li>
+		        <li><%= link_to "Library", library_path %></li>
+		        <% if signed_in? %>
+		        	<li id="fat-menu" class="dropdown">
+	              		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                		Account <b class="caret"></b>
+	              		</a>
+	              		<ul class="dropdown-menu">
+	              			<li><%= link_to "Profile", current_user %></li>
+			                <li><%= link_to "Edit Profile", edit_user_path(current_user) %></li>
+			                <li><%= link_to "Sign out", signout_path, method: "delete" %></li>
+	              		</ul>
+            		</li>
+            	<% else %>
+            		<li id="fat-menu" class="dropdown">
+	              		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                		Account <b class="caret"></b>
+	              		</a>
+	              		<ul class="dropdown-menu">
+	              			<li><%= link_to "Sign in", signin_path %></li>
+	              			<li><%= link_to "Sign up", signup_path %></li>
+	              		</ul>
+	              	</li>
+		        <% end %>
+	        </ul>
+	      	<form id="search" class="navbar-form nav pull-right" role="search">
+		        <div class="form-group">
+		          <input type="text" class="form-control" placeholder="User/Game search">
+		          <button type="submit" id="search_btn" class="btn btn-default">
+			          <i class="icon-search icon-black"></i>
+		          </button>
+		        </div>
+	      	</form>
+	      	<ul class="nav pull-right">
+	      		<% if signed_in? %>
+            		<li id="fat-menu" class="dropdown">
+	              		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	                		Setting <b class="caret"></b>
+	              		</a>
+	              		<ul class="dropdown-menu">
+	              			<li><%= link_to "All Users", users_path %></li>   
+	              			<li><%= link_to "All Articles", articles_path %></li>
+	              			<li><%= link_to "Upload an Article", new_article_path %></li> 			
+	              		</ul>
+	              	</li>
+          		<% end %>
+	      	</ul>
+	      </div>	
+      </div>
+    </header>

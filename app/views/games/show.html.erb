@@ -1,0 +1,48 @@
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+          <%= @game.name %>
+          <br>
+          <%= image_tag(@game.image_url) if @game.image? %>
+          <br>
+          <%= @game.description %>
+          <br>
+          <%= @category.title %>
+          <br>
+          <%= @status.title %>
+          <br>
+          <div id="follow_form">
+            <% if current_user.following?(@game) %>
+              <%= render 'unfollow' %>
+            <% else %>
+              <%= render 'follow' %>
+            <% end %>
+          </div>
+      </h1>
+    </section>
+  </aside>
+  <div class="row">
+      <div id="game_comment">
+        <div class="span6">
+            <%= form_for ([@game, @game.game_comments.build]) do |f| %>
+
+            <%= f.label "Comment" %>
+            <%= f.text_area :content, :rows => "4" %>
+
+            <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
+
+            <% end %>
+        </div>
+      </div>
+  </div>
+  <div class="span8">
+    <% if @game_comments.any? %>
+      <% @game_comments.each do |game_comment| %>
+        <span class="content"><%= game_comment.content %></span>
+        <br>
+      <% end %>
+    <% end %>
+  </div>
+  <h4><%= link_to "Edit", edit_game_path(@game) %></h4>
+</div>

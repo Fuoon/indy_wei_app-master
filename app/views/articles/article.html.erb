@@ -1,0 +1,13 @@
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+          <%= article.title %>
+          <br>
+          <%= image_tag(@artcle.image_url) if @article.image? %>
+          <br>
+          <%= @article.content %>
+      </h1>
+    </section>
+  </aside>
+</div>
