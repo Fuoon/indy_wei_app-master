@@ -19,6 +19,20 @@ class GameCommentsController < ApplicationController
 		end
 	end
 
+	def upvote
+		@game = Game.find(params[:game_id])
+		@game_comment = Game_Comment.find(params[:id])
+		@game_comment.liked_by current_user
+		redirect_to @game
+	end
+
+	def downvote
+		@game = Game.find(params[:game_id])
+		@game_comment = Game_Comment.find(params[:id])
+		@game_comment.downvote_from current_user
+		redirect_to @game
+	end
+
 	def destroy
 	end
 

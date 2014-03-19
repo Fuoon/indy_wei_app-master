@@ -1,9 +1,13 @@
 class GamesController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy, :index, :edit, :update]
+  before_action :signed_in_user, only: [:create, :destroy, :index, :edit, :update, :uploaded_game]
   before_action :correct_user, only: :destroy
   
   def index
-    @games = Game.paginate(page: params[:page])
+    @games = Game.all 
+  end
+
+  def uploaded_games
+    @games = current_user.games
   end
 
   def game
@@ -16,8 +20,8 @@ class GamesController < ApplicationController
 
   def show
   	@game = Game.find(params[:id])
-    @category = Category.find(@game.category_id)
-    @status = Status.find(@game.status_id)
+    # @category = Category.find(@game.category_id)
+    # @status = Status.find(@game.status_id)
     @game_comments = @game.game_comments.paginate(page: params[:page])
   end
 
@@ -51,6 +55,20 @@ class GamesController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def upvote
+    @game = Game.find(params[:id])
+    @game.liked_by current_user
+    flash[:success] = "like success"
+    redirect_to @game 
+  end
+
+  def downvote
+    @game = Game.find(params[:id])
+    @game.downvote_from current_user
+    flash[:success] = "dislike success"
+    redirect_to @game
   end
 
   private

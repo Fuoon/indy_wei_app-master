@@ -3,12 +3,26 @@ IndyWeiApp::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :relationships
   resources :articles do
-    resources :article_comments
+    resources :article_comments do
+      member do
+        put "like", to: "article_comments#upvote"
+        put "dislike", to: "article_comments#downvote"
+      end
+    end
   end
   resources :games do 
-    resources :game_comments
+    member do
+      put "like", to: "games#upvote"
+      put "dislike", to: "games#downvote"
+    end
+    resources :game_comments do
+      member do
+        put "like", to: "game_comments#upvote"
+        put "dislike", to: "game_comments#downvote"
+      end
+    end  
   end
-  
+
   root 'home_page#home'
   match '/library', to: 'library#library', via: 'get'
   match '/signup', to: 'users#new', via: 'get'
@@ -18,6 +32,7 @@ IndyWeiApp::Application.routes.draw do
   match '/contact', to: 'static_pages#contact', via: 'get'
   match '/privacy', to: 'static_pages#privacy', via: 'get'
   match '/term', to: 'static_pages#term', via: 'get'
+  match '/uploaded_games', to: 'games#uploaded_games', via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

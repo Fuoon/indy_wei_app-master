@@ -10,6 +10,6 @@ class RelationshipsController < ApplicationController
   def destroy
     @game = Relationship.find(params[:id]).game
     current_user.unfollow!(@game)
-    redirect_to :controller => 'games', :action => 'index'
+    redirect_to @game
   end
 end

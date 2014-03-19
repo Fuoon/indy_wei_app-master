@@ -19,6 +19,20 @@ class ArticleCommentsController < ApplicationController
     end
   end
 
+  def upvote
+    @article = Article.find(params[:game_id])
+    @article_comment = Article_comment.find(params[:id])
+    @article_comment.liked_by current_user
+    redirect_to @article
+  end
+
+  def downvote
+    @article = Article.find(params[:game_id])
+    @article_comment = Article_comment.find(params[:id])
+    @article_comment.downvote_from current_user
+    redirect_to @article
+  end
+
   def destroy
   end
 

@@ -1,4 +1,4 @@
 <li>
   <%= link_to game.name, game %>
-  <%= image_tag(game.image_url) if game.image? %>
+  <%= image_tag(game.image_url(:whole)) if game.image? %>
 </li>

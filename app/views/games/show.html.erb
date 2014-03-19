@@ -4,14 +4,11 @@
       <h1>
           <%= @game.name %>
           <br>
-          <%= image_tag(@game.image_url) if @game.image? %>
+          <%= image_tag(@game.image_url(:whole)) if @game.image? %>
           <br>
           <%= @game.description %>
           <br>
-          <%= @category.title %>
-          <br>
-          <%= @status.title %>
-          <br>
+          
           <div id="follow_form">
             <% if current_user.following?(@game) %>
               <%= render 'unfollow' %>
@@ -45,4 +42,6 @@
     <% end %>
   </div>
   <h4><%= link_to "Edit", edit_game_path(@game) %></h4>
+  <h4><%= link_to "Upvote", like_game_path(@game), method: :put %></h4>
+  <h4><%= link_to "Downvote", dislike_game_path(@game), method: :put %></h4>
 </div>

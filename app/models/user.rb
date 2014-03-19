@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
     has_many :relationships
     has_many :articles
-    has_many :games, :through => :relationships
+    has_many :games
+    has_many :followings, :through => :relationships, :source => :game
     has_many :article_comments, dependent: :destroy
     has_many :game_comments, dependent: :destroy
 	before_save { self.email = email.downcase }
@@ -11,7 +12,7 @@ class User < ActiveRecord::Base
     validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
     has_secure_password
     validates :password, length: { minimum: 6 }
-    mount_uploader :image, ImageUploader
+    mount_uploader :image, AvatarUploader
 
     def User.new_remember_token
     	SecureRandom.urlsafe_base64

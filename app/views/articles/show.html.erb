@@ -4,7 +4,7 @@
       <h1>
           <%= @article.title %>
           <br>
-          <%= image_tag(@article.image_url) if @article.image? %>
+          <%= image_tag(@article.image_url(:whole)) if @article.image? %>
           <br>
           <%= @article.content %>
       </h1>

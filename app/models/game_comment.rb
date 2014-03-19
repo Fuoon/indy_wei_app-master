@@ -5,4 +5,5 @@ class GameComment < ActiveRecord::Base
 	validates :user_id, presence: true
 	validates :game_id, presence: true
 	validates :content, presence: true, length: { maximum: 140 }
+	acts_as_votable
 end
