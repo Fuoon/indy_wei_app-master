@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :correct_user, only: :destroy
   
   def index
-    @games = Game.all 
+    @games = Game.all
   end
 
   def uploaded_games

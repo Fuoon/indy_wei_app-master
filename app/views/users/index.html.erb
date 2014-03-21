@@ -1,10 +1,19 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
-<%= will_paginate %>
-
-<ul class="users">
-  <%= render @users %>
-</ul>
-
-<%= will_paginate %>
+<% @users.each do |user| %>
+	<ul id="index-user" class="users">
+		<li>
+			  <% if !user.image? %>
+					<%= image_tag("default.png") %>
+			  <% else %>
+					<%= image_tag(user.image_url(:thumb)) if user.image? %>
+			  <% end %>
+			  <%= link_to user.username, user %>
+			  <% if current_user.admin? && !current_user?(user) %>
+			    | <%= link_to "delete", user, method: :delete,
+			                                  data: { confirm: "You sure?" } %>
+			  <% end %>
+		</li>
+	</ul>
+<% end %>

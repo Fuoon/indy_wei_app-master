@@ -1,13 +1,14 @@
 <h1>News</h1>
 <br>
-<% @articles.each do |article| %>
-	<div id="article-block-content" class="media">
-	  	<a id="home-article-image" class="pull-left" href="#">
+<div id="article-block-content" >
+	<% @articles.each do |article| %>
+	
+	  	<a id="home-article-image" href="#">
 	  		<%= link_to image_tag(article.image_url(:thumb)), article if article.image? %>
 	  	</a>
-	  	<div class="media-body">
-	  		<h4><%= link_to article.title, article %></h4>
-	  	</div>
-		    <%= article.content %>
-	</div>
-<% end %>
+	  		
+	  	<h4><%= link_to article.title, article %></h4>
+		<%= article.content %>
+	
+	<% end %>
+</div>
