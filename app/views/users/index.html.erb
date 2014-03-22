@@ -1,19 +1,18 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
-<% @users.each do |user| %>
-	<ul id="index-user" class="users">
+
+<ul id="index-user" class="users">
+	<% @users.each do |user| %>
 		<li>
-			  <% if !user.image? %>
-					<%= image_tag("default.png") %>
-			  <% else %>
-					<%= image_tag(user.image_url(:thumb)) if user.image? %>
-			  <% end %>
-			  <%= link_to user.username, user %>
-			  <% if current_user.admin? && !current_user?(user) %>
-			    | <%= link_to "delete", user, method: :delete,
+			<%= image_tag("default.png") %>
+			<%= image_tag(user.image_url) %>
+			<%= link_to user.username, user %>
+			<% if current_user.admin? && !current_user?(user) %>
+			  | <%= link_to "delete", user, method: :delete,
 			                                  data: { confirm: "You sure?" } %>
-			  <% end %>
+			<% end %>
 		</li>
-	</ul>
-<% end %>
+		<% end %>
+</ul>
+

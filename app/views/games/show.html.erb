@@ -4,7 +4,7 @@
       <h1>
           <%= @game.name %>
           <br>
-          <%= image_tag(@game.image_url(:whole)) if @game.image? %>
+          <%= image_tag(@game.image_url) %>
           <br>
           <%= @game.description %>
           <br>
@@ -42,6 +42,19 @@
     <% end %>
   </div>
   <h4><%= link_to "Edit", edit_game_path(@game) %></h4>
-  <h4><%= link_to "Upvote", like_game_path(@game), method: :put %></h4>
-  <h4><%= link_to "Downvote", dislike_game_path(@game), method: :put %></h4>
+  
+
+  <%= link_to (like_game_path(@game)), class: "btn btn-default", method: :put do %>
+    <i class="icon-thumbs-up icon-black"></i>
+  <% end %>
+  <%= link_to unlike_game_path(@game), class: "btn btn-primary", method: :put do %>
+    <i class="icon-thumbs-up icon-white"></i>
+  <% end %>
+  <%= link_to dislike_game_path(@game), class: "btn btn-default", method: :put do %>
+    <i class="icon-thumbs-down icon-black"></i>
+  <% end %>
+  <%= link_to undislike_game_path(@game), class: "btn btn-danger", method: :put do %>
+    <i class="icon-thumbs-down icon-white"></i>
+  <% end %>
+  
 </div>

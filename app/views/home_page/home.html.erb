@@ -1,14 +1,39 @@
-<h1>News</h1>
-<br>
-<div id="article-block-content" >
-	<% @articles.each do |article| %>
-	
-	  	<a id="home-article-image" href="#">
-	  		<%= link_to image_tag(article.image_url(:thumb)), article if article.image? %>
-	  	</a>
-	  		
-	  	<h4><%= link_to article.title, article %></h4>
-		<%= article.content %>
-	
+<div class="accordian">
+	<ul>
+	<% @articles_strip.each do |article| %>
+		<li>
+			<div class="image_title">
+				<a href="#"><%= link_to article.title, article %></a>
+			</div>
+			<a href="#"><%= link_to image_tag(article.image_url), article %></a>
+		</li>
 	<% end %>
+	</ul>
+</div>
+
+<div id="home-article-list">
+	<ul class="home">
+	<% @articles_list.each do |article| %>
+		<li>
+			<a href=""><%= link_to image_tag(article.image_url), article %></a>
+			<div class="article-title">
+				<a href=""><%= link_to article.title, article %></a>
+			</div>
+			<div class="by">
+				<p> by </p>
+			</div>
+			<div class="article-creator">
+				<p> <%= link_to article.user.username, article.user %> </p>
+			</div>
+			<div class="article-content">
+				<p>
+					<%= truncate article.content, length: 160 %>
+				</p>
+			</div>
+			<div class="read-more">
+				<p><%= link_to " Read more ", article %></p>
+			</div>
+		</li>
+	<% end %>
+	</ul>
 </div>

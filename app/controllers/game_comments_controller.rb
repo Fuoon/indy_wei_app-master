@@ -19,21 +19,38 @@ class GameCommentsController < ApplicationController
 		end
 	end
 
-	def upvote
+	def like
 		@game = Game.find(params[:game_id])
 		@game_comment = Game_Comment.find(params[:id])
 		@game_comment.liked_by current_user
 		redirect_to @game
 	end
 
-	def downvote
+	def unlike
 		@game = Game.find(params[:game_id])
 		@game_comment = Game_Comment.find(params[:id])
-		@game_comment.downvote_from current_user
+		@game_comment.unliked_by current_user
+		redirect_to @game
+	end
+
+	def dislike
+		@game = Game.find(params[:game_id])
+		@game_comment = Game_Comment.find(params[:id])
+		@game_comment.disliked_by current_user
+		redirect_to @game
+	end
+
+	def undislike
+		@game = Game.find(params[:game_id])
+		@game_comment = Game_Comment.find(params[:id])
+		@game_comment.undisliked_by current_user
 		redirect_to @game
 	end
 
 	def destroy
+		@game = Game.find(params[:game_id])
+		@game_comment = Game_Comment.find(params[:id]).destroy
+		redirect_to @game
 	end
 
 	def game_comment_params

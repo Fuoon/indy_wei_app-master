@@ -19,21 +19,39 @@ class ArticleCommentsController < ApplicationController
     end
   end
 
-  def upvote
+  def like
     @article = Article.find(params[:game_id])
     @article_comment = Article_comment.find(params[:id])
     @article_comment.liked_by current_user
     redirect_to @article
   end
 
-  def downvote
+  def unlike
     @article = Article.find(params[:game_id])
     @article_comment = Article_comment.find(params[:id])
-    @article_comment.downvote_from current_user
+    @article_comment.unliked_by current_user
+    redirect_to @article
+  end
+
+  def dislike
+    @article = Article.find(params[:game_id])
+    @article_comment = Article_comment.find(params[:id])
+    @article_comment.disliked_by current_user
+    redirect_to @article
+  end
+
+  def undislike
+    @article = Article.find(params[:game_id])
+    @article_comment = Article_comment.find(params[:id])
+    @article_comment.undisliked_by current_user
     redirect_to @article
   end
 
   def destroy
+    @article = Article.find(params[:game_id])
+    @article_comment = Article_comment.find(params[:id]).destroy
+    flash[:success] = "Success"
+    redirect_to @article
   end
 
   private
