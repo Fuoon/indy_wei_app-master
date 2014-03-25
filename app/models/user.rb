@@ -34,6 +34,14 @@ class User < ActiveRecord::Base
         relationships.find_by(game_id: game.id).destroy
     end
 
+    def self.search(search)
+      if search
+        find(:all, :conditions => ['title LIKE ?', "%#{search}%"])
+      else
+        find(:all)
+      end
+    end
+
     private
 
 	    def create_remember_token

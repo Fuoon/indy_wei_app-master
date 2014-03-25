@@ -141,7 +141,6 @@ default width = 800/5 = 160px;
 }
 
 #home-article-list .article-creator p{
-	color: #089e00;
 	font-family: alright_sansmediumitalic,HelveticaNeue,Helvetica,Arial,sans-serif;
 	-webkit-font-smoothing: antialiased;
 	font-style: italic;
@@ -150,11 +149,12 @@ default width = 800/5 = 160px;
 
 #home-article-list .article-content p{
 	float: left;
+	color: #3e433e;
 	margin-right: 5px;
 	font-size: 18px;
 }
 
 #home-article-list .read-more p {
-	color: #089e00;
+	font-style: italic;
 	font-size: 18px;
 }

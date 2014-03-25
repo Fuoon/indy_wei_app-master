@@ -40,6 +40,9 @@ IndyWeiApp::Application.routes.draw do
   match '/term', to: 'static_pages#term', via: 'get'
   match '/uploaded_games', to: 'games#uploaded_games', via: 'get'
   match '/search_games', to: 'games#search', via: 'get'
+  match '/search_articles', to: 'articles#search', via: 'get'
+  match '/search_users', to: 'users#search', via: 'get'
+  match '/show_all_games', to: 'games#show_all_games', via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

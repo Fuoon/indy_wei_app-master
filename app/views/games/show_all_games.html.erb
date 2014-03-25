@@ -1,9 +1,9 @@
 <header id="games-header-bar" class="navbar navbar-inverse">
 	<div class="navbar-inner">
 		<div class="navbar-header">
-			<h1 id="games-header-text">Users</h1>
+			<h1 id="games-header-text">Games</h1>
 		</div>
-		<%= form_tag url_for(controller: 'users', action: 'search'), method: 'get' do %>
+		<%= form_tag url_for(controller: 'games', action: 'search'), method: 'get' do %>
 	       <div style="float:right; padding-top:15px; padding-right: 10px; width: 25%;">
 	       	<%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search', placeholder: 'search articles' %>
 	       </div>
@@ -16,14 +16,19 @@
 	</div>
 </header>
 
+<div style="margin-bottom: 10px;">
+	<%= link_to new_game_path, class: "btn btn-primary" do %>
+		Share a game
+	<% end %>
+</div>
 
 <ul id="index-user-article" class="users">
-	<% @users.each do |user| %>
+	<% @games.each do |game| %>
 		<li>
-			<%= image_tag(user.image_url) %>
-			<%= link_to user.username, user %>
-			<% if current_user.admin? && !current_user?(user) %>
-			  | <%= link_to user, class: "btn btn-danger", method: :delete,
+			<%= image_tag(game.image_url) %>
+			<%= link_to game.name, game %>
+			<% if current_user.admin? %>
+			   | <%= link_to game, class: "btn btn-danger", method: :delete,
 			                                  data: { confirm: "You sure?" } do%>
 			        delete
 			     <% end %>

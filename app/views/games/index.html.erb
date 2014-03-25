@@ -103,6 +103,20 @@
 </div>
 
 <div id="lightbox">
+	<h1>Sport</h1>
+	<ul>
+	<% @sport_games_list.each do |game| %>
+		<li>
+			<%= link_to image_tag(game.image_url), game %>
+			<div class="image_title">
+				<h5 class="title"><%= link_to game.name, game %></h5>
+			</div>
+		</li>
+	<% end %>
+	</ul>
+</div>
+
+<div id="lightbox">
 	<h1>Strategy</h1>
 	<ul>
 	<% @strategy_games_list.each do |game| %>

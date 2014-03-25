@@ -1,6 +1,23 @@
-<h1>Library</h1>
-<br>
+<header id="games-header-bar" class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<div class="navbar-header">
+			<h1 id="games-header-text">Library</h1>
+		</div>
+	</div>
+</header>
 
-<% @games.each do |game| %>
-	<h1><%= game.name %></h1>
-<% end %>
+<div id="lightbox">
+	<h1>Games</h1>
+	<ul>
+	<% if signed_in? && @games %>
+		<% @games.each do |game| %>
+			<li>
+				<%= link_to image_tag(game.image_url), game %>
+				<div class="image_title">
+					<h5 class="title"><%= link_to game.name, game %></h5>
+				</div>
+			</li>
+		<% end %>
+	<% end %>
+	</ul>
+</div>

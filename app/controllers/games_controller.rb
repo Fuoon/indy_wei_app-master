@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy, :index, :edit, :update, :uploaded_game]
+  before_action :signed_in_user, only: [:create, :destroy, :edit, :update, :uploaded_games]
   before_action :correct_user, only: :destroy
   
   def index
@@ -23,8 +23,15 @@ class GamesController < ApplicationController
     @shooter_games = @games.where(:category_id => '6')
     @shooter_games_list = @shooter_games[0..4]
 
-    @strategy_games = @games.where(:category_id => '7')
-    @strategy_games_list = @shooter_games[0..4]
+    @sport_games = @games.where(:category_id => '7')
+    @sport_games_list = @sport_games[0..4]
+
+    @strategy_games = @games.where(:category_id => '8')
+    @strategy_games_list = @strategy_games[0..4]
+  end
+
+  def show_all_games
+    @games = Game.all
   end
 
   def search
@@ -41,8 +48,8 @@ class GamesController < ApplicationController
 
   def show
   	@game = Game.find(params[:id])
-    # @category = Category.find(@game.category_id)
-    # @status = Status.find(@game.status_id)
+    @category = Category.find(@game.category_id)
+    @status = Status.find(@game.status_id)
     @game_comments = @game.game_comments.paginate(page: params[:page])
   end
 
@@ -59,7 +66,7 @@ class GamesController < ApplicationController
   end
 
   def destroy
-    @game.find(params[:id]).destroy
+    Game.find(params[:id]).destroy
     flash[:success] = "Game deleted."
     redirect_to games_path
   end

@@ -6,6 +6,10 @@ class ArticlesController < ApplicationController
     @articles = Article.paginate(page: params[:page])
   end
   
+  def search
+    @articles = Article.search(params[:search])
+  end
+
   def new
   	@article = Article.new
   end
@@ -26,9 +30,9 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article.find(params[:id]).destroy
+    Article.find(params[:id]).destroy
     flash[:success] = "Article deleted."
-    redirect_to root_url
+    redirect_to articles_path
   end
 
   def edit

@@ -49,7 +49,7 @@ class ArticleCommentsController < ApplicationController
 
   def destroy
     @article = Article.find(params[:game_id])
-    @article_comment = Article_comment.find(params[:id]).destroy
+    Article_comment.find(params[:id]).destroy
     flash[:success] = "Success"
     redirect_to @article
   end

@@ -13,27 +13,29 @@
 
 <div id="home-article-list">
 	<ul class="home">
-	<% @articles_list.each do |article| %>
-		<li>
-			<a href=""><%= link_to image_tag(article.image_url), article %></a>
-			<div class="article-title">
-				<a href=""><%= link_to article.title, article %></a>
-			</div>
-			<div class="by">
-				<p> by </p>
-			</div>
-			<div class="article-creator">
-				<p> <%= link_to article.user.username, article.user %> </p>
-			</div>
-			<div class="article-content">
-				<p>
-					<%= truncate article.content, length: 160 %>
-				</p>
-			</div>
-			<div class="read-more">
-				<p><%= link_to " Read more ", article %></p>
-			</div>
-		</li>
+	<% if @article_list %>
+		<% @articles_list.each do |article| %>
+			<li>
+				<a href=""><%= link_to image_tag(article.image_url), article %></a>
+				<div class="article-title">
+					<a href=""><%= link_to article.title, article, {:style => 'color: #3e433e;'} %></a>
+				</div>
+				<div class="by">
+					<p> by </p>
+				</div>
+				<div class="article-creator">
+					<p> <%= link_to article.user.username, article.user, {:style=>'color: #089e00;'} %> <%= time_ago_in_words(article.created_at) %> ago</p>
+				</div>
+				<div class="article-content">
+					<p>
+						<%= truncate article.content, length: 160 %>
+					</p>
+				</div>
+				<div class="read-more">
+					<p><%= link_to " Read more ", article, {:style=>'color: #089e00;'} %></p>
+				</div>
+			</li>
+		<% end %>
 	<% end %>
 	</ul>
 </div>

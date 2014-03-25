@@ -1,5 +1,7 @@
 class LibraryController < ApplicationController
   def library
-  	@games = current_user.followings
+  	if signed_in?
+  		@games = current_user.followings
+  	end
   end
 end

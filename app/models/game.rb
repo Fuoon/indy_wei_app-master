@@ -6,8 +6,8 @@ class Game < ActiveRecord::Base
 	has_one :category
 	has_one :status
 	validates :user_id, presence: true
-	# validates :category_id, presence: true
-	# validates :status_id, presence: true
+	validates :category_id, presence: true
+	validates :status_id, presence: true
 	validates :name, presence: true, length: { maximum: 50}
 	validates :link, presence: true
 	validates :description, presence: true

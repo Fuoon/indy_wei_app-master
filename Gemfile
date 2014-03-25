@@ -11,6 +11,7 @@ gem 'bootstrap-will_paginate', '0.0.9'
 gem 'carrierwave'
 gem 'carrierwave-datamapper'
 gem 'rmagick'
+gem 'mini_magick'
 gem 'acts_as_votable', '~> 0.8.0'
 
 group :development, :test do
