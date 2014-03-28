@@ -151,3 +151,31 @@
 	color: white;
 }
 
+/*Show Game Page*/
+
+#game-content #myCarousel{
+	width: 830px;
+}
+
+#game-content img{
+	width: 830px;
+	height: 477px;
+}
+
+#game-content .game-link a{
+	font-size: 30px;
+	padding: 20px 35px;
+	margin-left: 350px;
+	float: left;
+}
+
+#game-content .follow_form form input{
+	font-size: 30px;
+	padding: 20px 55px;
+}
+
+#game-content .game-description{
+	width: 500px;
+	align: center;
+}
+

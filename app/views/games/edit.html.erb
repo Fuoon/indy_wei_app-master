@@ -19,7 +19,10 @@
 
       <%= f.collection_select :status_id, Status.all, :id, :title, :prompt => "Status" %>
 
-      <%= f.file_field :image %>
+      <%= f.fields_for @game.image_attachments.build do |p| %>
+             <%= p.label :image %><br>
+             <%= p.file_field :image, :multiple => true, name: "image_attachments[image][]" %>
+          <% end %>
 
       <%= f.submit "Save", class: "btn btn-large btn-primary" %>
     <% end %>

@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
   before_action :correct_user,   only: :destroy
 
   def index
-    @articles = Article.paginate(page: params[:page])
+    @articles = Article.paginate(page: params[:page], :per_page => 30)
   end
   
   def search
@@ -12,17 +12,26 @@ class ArticlesController < ApplicationController
 
   def new
   	@article = Article.new
+    @image_attachment = @article.image_attachments.build
   end
 
   def show
   	@article = Article.find(params[:id])
-    @article_comments = @article.article_comments.paginate(page: params[:page])
+    @image_attachments = @article.image_attachments.all
+    @article_comments = @article.article_comments.paginate(page: params[:page], :per_page => 25)
+    @articles = Article.all 
+    @next_article = @articles[@articles.index(@article) + 1]
+    @previous_article = @articles[@articles.index(@article) - 1]
   end
 
   def create
   	@article = current_user.articles.build(article_params)
   	if @article.save
-  		flash[:success] = "Article created!"
+      if params[:image_attachments] != nil
+        params[:image_attachments]['image'].each do |a|
+          @image_attachment = @article.image_attachments.create!(:image => a, :article_id => @article_id)
+        end
+      end
   		redirect_to @article
   	else
   		redirect_to 'articles/article'
@@ -31,28 +40,32 @@ class ArticlesController < ApplicationController
 
   def destroy
     Article.find(params[:id]).destroy
-    flash[:success] = "Article deleted."
     redirect_to articles_path
   end
 
   def edit
     @article = Article.find(params[:id])
+    @image_attachments = @article.image_attachments.all
   end
 
   def update
     @article = Article.find(params[:id])
     if @article.update_attributes(article_params)
-      flash[:success] = "Edits Success"
-      redirect_to root_url
+      if params[:image_attachments] != nil
+        params[:image_attachments]['image'].each do |a|
+          @image_attachment = @article.image_attachments.create!(:image => a, :article_id => @article_id)
+        end
+      end
+      redirect_to @article 
     else
-      render 'edit'
+      redirect_to @article
     end
   end
 
   private
 
   	def article_params
-  		params.require(:article).permit(:content, :title, :image)
+  		params.require(:article).permit(:content, :title, image_attachments_attributes: [:id, :article_id, :image])
   	end
 
   	def correct_user

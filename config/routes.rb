@@ -2,13 +2,13 @@ IndyWeiApp::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :relationships
+  resources :image_attachment
   resources :articles do
     resources :article_comments do
       member do
         put "like", to: "article_comments#like"
         put "unlike", to: "article_comments#unlike"
-        put "dislike", to: "article_comments#dislike"
-        put "undislike", to: "article_comments#undislike"
+        match '/delete', to: 'article_comments#destroy', via: 'delete'
       end
     end
   end
@@ -23,8 +23,6 @@ IndyWeiApp::Application.routes.draw do
       member do
         put "like", to: "game_comments#like"
         put "unlike", to: "game_comments#unlike"
-        put "dislike", to: "game_comments#dislike"
-        put "undislike", to: "game_comments#undislike"
       end
     end  
   end
@@ -43,6 +41,15 @@ IndyWeiApp::Application.routes.draw do
   match '/search_articles', to: 'articles#search', via: 'get'
   match '/search_users', to: 'users#search', via: 'get'
   match '/show_all_games', to: 'games#show_all_games', via: 'get'
+  
+  match '/show_all_action_games', to: 'games#show_all_action_games', via: 'get'
+  match '/show_all_arcade_games', to: 'games#show_all_arcade_games', via: 'get'
+  match '/show_all_adventure_games', to: 'games#show_all_adventure_games', via: 'get'
+  match '/show_all_puzzle_games', to: 'games#show_all_puzzle_games', via: 'get'
+  match 'show_all_rpg_games', to: 'games#show_all_rpg_games', via: 'get'
+  match 'show_all_shooter_games', to: 'games#show_all_shooter_games', via: 'get'
+  match 'show_all_sport_games', to: 'games#show_all_sport_games', via: 'get'
+  match 'show_all_strategy_games', to: 'games#show_all_strategy_games', via: 'get'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

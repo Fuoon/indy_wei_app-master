@@ -5,7 +5,9 @@
 			<div class="image_title">
 				<a href="#"><%= link_to article.title, article %></a>
 			</div>
-			<a href="#"><%= link_to image_tag(article.image_url), article %></a>
+			<% if article.image_attachments.count > 0 %>
+				<a href="#"><%= link_to image_tag(article.image_attachments.first.image_url), article %></a>
+			<% end %>
 		</li>
 	<% end %>
 	</ul>
@@ -13,12 +15,14 @@
 
 <div id="home-article-list">
 	<ul class="home">
-	<% if @article_list %>
+	<% if @articles_list.count > 0 %>
 		<% @articles_list.each do |article| %>
 			<li>
-				<a href=""><%= link_to image_tag(article.image_url), article %></a>
+				<% if article.image_attachments.count > 0 %>
+					<a href="#"><%= link_to image_tag(article.image_attachments.first.image_url), article %></a>
+				<% end %>
 				<div class="article-title">
-					<a href=""><%= link_to article.title, article, {:style => 'color: #3e433e;'} %></a>
+					<a href=""><%= link_to (truncate article.title, length: 50), article, {:style => 'color: #3e433e;'} %></a>
 				</div>
 				<div class="by">
 					<p> by </p>
@@ -28,14 +32,12 @@
 				</div>
 				<div class="article-content">
 					<p>
-						<%= truncate article.content, length: 160 %>
+						<%= truncate article.content, length: 250 %> <%= link_to " Read more ", article, {:style=>'color: #089e00;'} %>
 					</p>
-				</div>
-				<div class="read-more">
-					<p><%= link_to " Read more ", article, {:style=>'color: #089e00;'} %></p>
 				</div>
 			</li>
 		<% end %>
 	<% end %>
 	</ul>
 </div>
+

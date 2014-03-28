@@ -1,36 +1,135 @@
-<div class="row">
-  <aside class="span4">
-    <section>
-      <h1>
-          <%= @article.title %>
-          <br>
-          <%= image_tag(@article.image_url) if @article.image? %>
-          <br>
-          <%= @article.content %>
-      </h1>
-    </section>
-  </aside>
-  <div class="row">
-      <div id="article_comment">
-        <div class="span6">
-            <%= form_for ([@article, @article.article_comments.build]) do |f| %>
-
-              <%= f.label "Comment" %>
-              <%= f.text_area :content, :rows => "4" %>
-
-              <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
-      
-            <% end %>
-        </div>
-      </div>
-  </div>
-  <div class="span8">
-    <% if @article_comments.any? %>
-      <% @article_comments.each do |article_comment| %>
-        <span class="content"><%= article_comment.content %></span>
-        <br>
+<div id="show-article">
+  <div class="article-title">
+    <p><%= @article.title %> 
+      <% if current_user.admin? %>
+        <%= link_to @article, class: "btn btn-danger btn-large", method: :delete, data: {confirm: "You sure?"} do %>
+          Delete
+        <% end %>
+        <%= link_to edit_article_path(@article), class: "btn btn-primary btn-large" do %>
+          Edit
+        <% end %>
       <% end %>
+    </p> 
+  </div>
+  <div class="article-title-info">
+    <span class="timestamp">Posted <%= time_ago_in_words(@article.created_at) %> ago. By </span> 
+    <%= link_to @article.user.username, @article.user %>
+  </div>
+  <div class="article-image">
+    <% if @article.image_attachments.count > 0 %>
+      <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+          <li data-target="#myCarousel" data-slide-to="3"></li>
+          <li data-target="#myCarousel" data-slide-to="4"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="active item">
+            <%= image_tag @image_attachments.first.image_url %>
+          </div>
+          <% if @image_attachments.count > 1 %>
+            <div class="item">
+              <%= image_tag @image_attachments.second.image_url %>
+            </div>
+          <% end %>
+          <% if @image_attachments.count > 2 %>
+            <div class="item">
+              <%= image_tag @image_attachments.third.image_url %>
+            </div>
+          <% end %>
+          <% if @image_attachments.count > 3 %>
+            <div class="item">
+              <%= image_tag @image_attachments.fourth.image_url %>
+            </div>
+          <% end %>
+          <% if @image_attachments.count > 4 %>
+            <div class="item">
+              <%= image_tag @image_attachments.fifth.image_url %>
+            </div>
+          <% end %>
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+      </div>
     <% end %>
   </div>
-  <h4><%= link_to "Edit", edit_article_path(@article) %></h4>
+  <div class="article-content">
+    <p><%= @article.content %></p> 
+  </div>
+  <div class="next-previous-btn">
+    <%= link_to @previous_article, class: "btn btn-warning", id: "previous-article-btn" do %>
+      Previos  
+    <% end %>
+    <%= link_to @next_article, class: "btn btn-warning", id: "next-article-btn" do %>
+      Next  
+    <% end %>
+  </div>
 </div>
+<div id="article_comment">
+    <%= form_for ([@article, @article.article_comments.build]) do |f| %>
+      <%= f.text_area :content, :rows => "4" %>
+      <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
+    <% end %>
+    <div class="subtitle_tab_head">
+      Comment (<%= @article.article_comments.count %>)
+    </div>
+    <div class="subtitle_content"> 
+      <% if @article_comments.any? %>
+        <% @article_comments.each do |article_comment| %>
+          <div class="subtitle_tab_head_inner">
+            <div class="owner-article-comment">
+              <%= link_to image_tag(article_comment.user.image_url), article_comment.user %> <%= link_to article_comment.user.username, article_comment.user %>
+            </div>
+          </div>
+          <div class="subtitle_content">           
+            <div>
+              <%= article_comment.content %>
+            </div>
+            <div class="like-dislike">
+              <% if current_user.voted_for? article_comment %>
+                <%= link_to "unlike |", unlike_article_article_comment_path(@article, article_comment), method: :put %>
+                <% if article_comment.likes.size > 0 %>
+                    <i class="icon-thumbs-up icon-blue"></i> 
+                    <%= article_comment.likes.size %> | 
+                    <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
+                <% else %>
+                    <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
+                <% end %>
+                <% if current_user.admin? || @article_comment.user == current_user %>
+                    | <%= link_to delete_article_article_comment_path(@article, article_comment), class: "btn btn-danger btn-small", method: :delete,
+                                        data: { confirm: "You sure?" } do%>
+                        Delete
+                     <% end %>
+                <% end %>
+              <% else %>
+                <%= link_to "like |", like_article_article_comment_path(@article, article_comment), method: :put %>
+                <% if article_comment.likes.size > 0 %>
+                    <i class="icon-thumbs-up icon-blue"></i>
+                    <%= article_comment.likes.size %> |
+                    <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
+                <% else %>
+                   <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
+                <% end %>
+                <% if current_user.admin? || @article_comment.user == current_user %>
+                    | <%= link_to delete_article_article_comment_path(@article, article_comment), class: "btn btn-danger btn-small", method: :delete,
+                                        data: { confirm: "You sure?" } do%>
+                        Delete
+                     <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </div> 
+        <% end %>
+      <% end %>
+    </div>
+</div>
+
+
+  
+  
+    
+
+  

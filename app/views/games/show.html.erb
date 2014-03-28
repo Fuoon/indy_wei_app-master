@@ -1,24 +1,74 @@
-<div class="row">
-  <aside class="span4">
-    <section>
-      <h1>
-          <%= @game.name %>
-          <br>
-          <%= image_tag(@game.image_url) %>
-          <br>
-          <%= @game.description %>
-          <br>
-          
-          <div id="follow_form">
-            <% if current_user.following?(@game) %>
-              <%= render 'unfollow' %>
-            <% else %>
-              <%= render 'follow' %>
-            <% end %>
+<header id="games-header-bar" class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="navbar-header">
+      <h1 id="games-header-text"><%= @game.name %></h1>
+    </div>
+  </div>
+</header>
+
+<div id="game-content">
+    <% if @game.image_attachments.count > 0 %>
+      <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+          <li data-target="#myCarousel" data-slide-to="3"></li>
+          <li data-target="#myCarousel" data-slide-to="4"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="active item">
+            <%= image_tag @image_attachments.first.image_url %>
           </div>
-      </h1>
-    </section>
-  </aside>
+          <% if @image_attachments.count > 1 %>
+            <div class="item">
+              <%= image_tag @image_attachments.second.image_url %>
+            </div>
+          <% end %>
+          <% if @image_attachments.count > 2 %>
+            <div class="item">
+              <%= image_tag @image_attachments.third.image_url %>
+            </div>
+          <% end %>
+          <% if @image_attachments.count > 3 %>
+            <div class="item">
+              <%= image_tag @image_attachments.fourth.image_url %>
+            </div>
+          <% end %>
+          <% if @image_attachments.count > 4 %>
+            <div class="item">
+              <%= image_tag @image_attachments.fifth.image_url %>
+            </div>
+          <% end %>
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+      </div>
+    <% end %>
+  <div class="game-link">
+    <%= link_to @game.link, class: "btn btn-large btn-warning" do %>
+      Play Now
+    <% end %>
+  </div>
+  <div class="follow_form">
+    <% if current_user.following?(@game) %>
+      <%= form_for(current_user.relationships.find_by(game_id: @game.id), html: { method: :delete }) do |f| %>
+          <%= f.submit "Unfollow", class: "btn btn-large" %>
+      <% end %>
+    <% else %>
+      <%= form_for(current_user.relationships.build(game_id: @game.id)) do |f| %>
+          <div><%= f.hidden_field :game_id %></div>
+          <%= f.submit "Follow", class: "btn btn-large btn-success" %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="game-description">
+    <%= @game.description %>
+  </div>
+  <br>          
+</div>
+
   <div class="row">
       <div id="game_comment">
         <div class="span6">
@@ -57,4 +107,3 @@
     <i class="icon-thumbs-down icon-white"></i>
   <% end %>
   
-</div>

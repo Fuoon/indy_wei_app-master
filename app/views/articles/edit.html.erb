@@ -2,19 +2,109 @@
 <h1>Edit Article</h1>
 
 <div class="row">
-  <div>
+  <div id="edit-article">
     <%= form_for(@article) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
+      
+      <div class="article-image">
+        <% if @article.image_attachments.count > 0 %>
+          <div id="myCarousel" class="carousel slide">
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#myCarousel" data-slide-to="1"></li>
+              <li data-target="#myCarousel" data-slide-to="2"></li>
+              <li data-target="#myCarousel" data-slide-to="3"></li>
+              <li data-target="#myCarousel" data-slide-to="4"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="active item">
+                <%= image_tag @image_attachments.first.image_url %>
+                <div class="carousel-caption">
+                  <% if current_user.admin? || @article.user == current_user %>
+                     | <%= link_to @image_attachments.first, class: "btn btn-danger", method: :delete,
+                                                    data: { confirm: "You sure?" } do%>
+                          Delete
+                       <% end %>
+                  <% end %>
+                </div>
+              </div>
+              <% if @image_attachments.count > 1 %>
+                <div class="item">
+                  <%= image_tag @image_attachments.second.image_url %>
+                  <div class="carousel-caption">
+                    <% if current_user.admin? || @article.user == current_user %>
+                       | <%= link_to @image_attachments.second, class: "btn btn-danger", method: :delete,
+                                                      data: { confirm: "You sure?" } do%>
+                            Delete
+                         <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <% if @image_attachments.count > 2 %>
+                <div class="item">
+                  <%= image_tag @image_attachments.third.image_url %>
+                  <div class="carousel-caption">
+                    <% if current_user.admin? || @article.user == current_user %>
+                       | <%= link_to @image_attachments.third, class: "btn btn-danger", method: :delete,
+                                                      data: { confirm: "You sure?" } do%>
+                            Delete
+                         <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <% if @image_attachments.count > 3 %>
+                <div class="item">
+                  <%= image_tag @image_attachments.fourth.image_url %>
+                  <div class="carousel-caption">
+                    <% if current_user.admin? || @article.user == current_user %>
+                       | <%= link_to @image_attachments.forth, class: "btn btn-danger", method: :delete,
+                                                      data: { confirm: "You sure?" } do%>
+                            Delete
+                         <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <% if @image_attachments.count > 4 %>
+                <div class="item">
+                  <%= image_tag @image_attachments.fifth.image_url %>
+                  <div class="carousel-caption">
+                    <% if current_user.admin? || @article.user == current_user %>
+                       | <%= link_to @image_attachments.fifth, class: "btn btn-danger", method: :delete,
+                                                      data: { confirm: "You sure?" } do%>
+                            Delete
+                         <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+          </div>
+        <% end %>
+      </div>
 
       <%= f.label :title %>
       <%= f.text_field :title %>
 
       <%= f.label :content %>
-      <%= f.text_area :content, :row => "10" %>
+      <%= f.text_area :content, :rows => "30" %>
 
-      <%= f.file_field :image %>
-
-      <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+      <div class="edit-article-image">
+        <% if @article.image_attachments.count > 5 %>
+          <p>You have reach Maximum of photos that can be uploaded!!!</p>
+        <% else %>
+          <%= f.fields_for @article.image_attachments.build do |p| %>
+              <%= p.label :Add_Photo %>
+              <%= p.file_field :image, :multiple => true, name: "image_attachments[image][]"%>
+          <% end %>
+        <% end %>
+      </div>
+      <%= f.submit "Save", class: "btn btn-large btn-primary" , id: "save-btn" %>
     <% end %>
   </div>
 </div>

@@ -10,10 +10,12 @@
           
           <div id="content_article">
             <%= f.label :content %>
-            <%= f.text_area :content, :rows => "10" %>
+            <%= f.text_area :content, :rows => "30" %>
           </div>
 
-          <%= f.file_field :image %>
+          <%= f.fields_for @article.image_attachments.build do |p| %>
+             <%= p.file_field :image, :multiple => true, name: "image_attachments[image][]" %>
+          <% end %>
           <br>
       </div>  
       <div id="article_upload_btn">

@@ -25,7 +25,9 @@
 <ul id="index-user-article" class="users">
 	<% @games.each do |game| %>
 		<li>
-			<%= image_tag(game.image_url) %>
+			<% if game.image_attachments.count > 0 %>
+				<%= link_to image_tag(game.image_attachments.first.image_url), game %>
+			<% end %>
 			<%= link_to game.name, game %>
 			<% if current_user.admin? %>
 			   | <%= link_to game, class: "btn btn-danger", method: :delete,

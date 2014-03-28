@@ -11,7 +11,8 @@ class Game < ActiveRecord::Base
 	validates :name, presence: true, length: { maximum: 50}
 	validates :link, presence: true
 	validates :description, presence: true
-	mount_uploader :image, ImageUploader
+	has_many :image_attachments, dependent: :destroy
+    accepts_nested_attributes_for :image_attachments
 	acts_as_votable
 
 	def self.search(search)

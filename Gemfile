@@ -12,6 +12,7 @@ gem 'carrierwave'
 gem 'carrierwave-datamapper'
 gem 'rmagick'
 gem 'mini_magick'
+gem 'ransack'
 gem 'acts_as_votable', '~> 0.8.0'
 
 group :development, :test do

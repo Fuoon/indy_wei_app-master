@@ -1,16 +1,54 @@
-<% provide(:title, @user.username) %>
-<div class="row">
-  <aside class="span4">
-    <section>
-      <h1>
-      	<% if !@user.image? %>
-			     <%= image_tag("default.png") %>
-      	<% else %>
-			     <%= image_tag(@user.image_url) if @user.image? %>
-      	<% end %>
-        <%= @user.username %>
-      </h1>
-    </section>
-  </aside>
-  <li><%= link_to "Edit Profile", edit_user_path(current_user) %></li>
+<div id="show-user">
+	<div class="row">
+	  <aside class="span4">
+	    <section>
+	      <h1>
+	        <div class="gravatar">
+	        	<%= image_tag(@user.image_url) %>
+	        </div>
+	        <div class="show-username">
+	        	<p><%= @user.username %></p>
+	        </div>
+	      </h1>
+	    </section>
+	  </aside>
+	  <div class="span8">
+	    <% if @article_comments.any? %>
+	      <h3>Article Comments (<%= @article_comments.count %>)</h3>
+	      <ol class="microposts">
+	        <li>
+			  <% @article_comments.each do |article_comment| %>
+			  	<span class="content"><%= article_comment.content %></span>
+				  <span class="timestamp">
+				    Posted <%= time_ago_in_words(article_comment.created_at) %> ago.
+				  </span>	
+			  <% end %>
+			</li>
+	      </ol>
+	    <% end %>
+	  </div>
+	  <aside class="span4">
+	    <section>
+	    </section>
+	  </aside>
+	  <div class="span8">
+	    <% if @game_comments.any? %>
+	      <h3>Game Comments (<%= @game_comments.count %>)</h3>
+	      <ol class="microposts">
+	        <li>
+			  <% @game_comments.each do |game_comment| %>
+			  	<span class="content"><%= game_comment.content %></span>
+				  <span class="timestamp">
+				    Posted <%= time_ago_in_words(game_comment.created_at) %> ago.
+				  </span>	
+			  <% end %>
+			</li>
+	      </ol>
+	    <% end %>
+	  </div>
+	</div>
 </div>
+
+<%= link_to edit_user_path(current_user), class: "btn btn-primary" do %>
+    Edit
+<% end %>

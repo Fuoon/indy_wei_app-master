@@ -108,7 +108,6 @@ default width = 800/5 = 160px;
  
 #home-article-list li img {
   float: left;
-  margin: 0 15px 0 0;
   padding: 37px 37px 0px 37px;
   width: 208px;
   height: 156px;
@@ -120,7 +119,6 @@ default width = 800/5 = 160px;
  
 #home-article-list li {
   width: 1100px;
-  height: 230px;
   border-bottom: 3px solid #A4A4A4;
   overflow: auto;
 }
@@ -148,9 +146,9 @@ default width = 800/5 = 160px;
 }
 
 #home-article-list .article-content p{
-	float: left;
 	color: #3e433e;
 	margin-right: 5px;
+	margin-bottom: 30px;
 	font-size: 18px;
 }
 

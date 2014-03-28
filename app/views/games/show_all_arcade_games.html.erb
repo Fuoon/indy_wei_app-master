@@ -1,0 +1,31 @@
+<header id="games-header-bar" class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<div class="navbar-header">
+			<h1 id="games-header-text">Games</h1>
+		</div>
+		<%= form_tag url_for(controller: 'games', action: 'search'), method: 'get' do %>
+	       <div style="float:right; padding-top:15px; padding-right: 10px; width: 25%;">
+	       	<%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search', placeholder: 'search games' %>
+	       </div>
+	       <div style="float:right; padding-top: 10px;" >
+	            <%= button_tag(type: "submit", class: "btn btn-default") do %>
+	            	<i class="icon-search"></i>
+	            <% end %>
+	       </div>
+    	<% end %>
+	</div>
+</header>
+
+<div id="lightbox">
+	<h1>Arcade</h1>
+	<ul>
+	<% @arcade_games.each do |game| %>
+		<li>
+			<%= link_to image_tag(game.image_url), game %>
+			<div class="image_title">
+				<h5 class="title"><%= link_to game.name, game %></h5>
+			</div>
+		</li>
+	<% end %>
+	</ul>
+</div>

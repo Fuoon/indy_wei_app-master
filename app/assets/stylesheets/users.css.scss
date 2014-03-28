@@ -2,4 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-/*Profile User*/
+#show-user .gravatar img{
+  float: left; 
+  width: 80px;
+  height: 80px;
+}
+#show-user .show-username p{
+	margin-top: 10px;
+}

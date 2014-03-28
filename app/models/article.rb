@@ -3,9 +3,10 @@ class Article < ActiveRecord::Base
 	has_many :article_comments, dependent: :destroy
 	default_scope -> { order('created_at DESC') }
 	validates :user_id, presence: true
-	validates :title, presence: true, length: { maximum: 50}
+	validates :title, presence: true, length: { maximum: 100}
 	validates :content, presence: true
-	mount_uploader :image, ImageUploader
+	has_many :image_attachments, dependent: :destroy
+    accepts_nested_attributes_for :image_attachments
 
 	def self.search(search)
 	  if search
