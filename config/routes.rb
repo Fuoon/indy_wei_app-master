@@ -23,6 +23,7 @@ IndyWeiApp::Application.routes.draw do
       member do
         put "like", to: "game_comments#like"
         put "unlike", to: "game_comments#unlike"
+        match '/delete', to: 'game_comments#destroy', via: 'delete'
       end
     end  
   end
@@ -41,7 +42,9 @@ IndyWeiApp::Application.routes.draw do
   match '/search_articles', to: 'articles#search', via: 'get'
   match '/search_users', to: 'users#search', via: 'get'
   match '/show_all_games', to: 'games#show_all_games', via: 'get'
-  
+  match '/users/:id/admin', to: 'users#admin', via: 'post'
+
+  match '/follow_without_signed_in', to: 'games#follow_without_signed_in', via: 'get'
   match '/show_all_action_games', to: 'games#show_all_action_games', via: 'get'
   match '/show_all_arcade_games', to: 'games#show_all_arcade_games', via: 'get'
   match '/show_all_adventure_games', to: 'games#show_all_adventure_games', via: 'get'

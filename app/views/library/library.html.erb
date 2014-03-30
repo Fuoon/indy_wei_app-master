@@ -6,18 +6,18 @@
 	</div>
 </header>
 
-<div id="lightbox">
-	<h1>Games</h1>
-	<ul>
-	<% if signed_in? && @games %>
-		<% @games.each do |game| %>
-			<li>
-				<%= link_to image_tag(game.image_url), game %>
-				<div class="image_title">
-					<h5 class="title"><%= link_to game.name, game %></h5>
-				</div>
-			</li>
-		<% end %>
-	<% end %>
-	</ul>
-</div>
+<% if signed_in? && @games.count > 0 %>
+	<div id="lightbox">
+		<h1>Games</h1>
+		<ul>
+			<% @games.each do |game| %>
+				<li>
+					<%= link_to image_tag(game.image_attachments.first.image_url), game %>
+					<div class="image_title">
+						<h5 class="title"><%= link_to game.name, game %></h5>
+					</div>
+				</li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>

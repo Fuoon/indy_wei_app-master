@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy, :edit, :update, :uploaded_games]
+  before_action :signed_in_user, only: [:create, :destroy, :edit, :update, :uploaded_games, :like, :unlike, :dislike, :undislike]
   before_action :correct_user, only: :destroy
   
   def index
@@ -95,6 +95,10 @@ class GamesController < ApplicationController
     @game_comments = @game.game_comments.paginate(page: params[:page])
   end
 
+  def follow_without_signed_in
+    redirect_to '/signin'
+  end
+
   def create 
     @game = current_user.games.build(game_params)
     @game.user = current_user
@@ -117,6 +121,7 @@ class GamesController < ApplicationController
 
   def edit
     @game = Game.find(params[:id])
+    @image_attachments = @game.image_attachments.all
   end
 
   def update
@@ -135,29 +140,31 @@ class GamesController < ApplicationController
 
   def like
     @game = Game.find(params[:id])
-    @game.liked_by current_user
-    flash[:success] = "like success"
-    redirect_to @game 
+    if @game.liked_by current_user
+        redirect_to @game 
+    else
+        redirect_to '/signin'
+    end
   end
 
   def unlike
     @game = Game.find(params[:id])
     @game.unliked_by current_user
-    flash[:success] = "unlike success"
     redirect_to @game
   end
 
   def dislike
     @game = Game.find(params[:id])
-    @game.disliked_by current_user
-    flash[:success] = "dislike success"
-    redirect_to @game
+    if @game.disliked_by current_user
+        redirect_to @game
+    else
+        redirect_to '/signin'
+    end
   end
 
   def undislike
     @game = Game.find(params[:id])
     @game.undisliked_by current_user
-    flash[:success] = "undislike success"
     redirect_to @game
   end
 

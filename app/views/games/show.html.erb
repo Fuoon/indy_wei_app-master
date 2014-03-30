@@ -1,10 +1,27 @@
 <header id="games-header-bar" class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class="navbar-header">
-      <h1 id="games-header-text"><%= @game.name %></h1>
+      <h1 id="games-header-text"><%= @game.name %> ( <%= @status.title %> ) </h1>
     </div>
   </div>
 </header>
+
+<div id="game-owner-posted">
+  <div class="article-title-info">
+      <span class="timestamp">Posted <%= time_ago_in_words(@game.created_at) %> ago. By </span> 
+      <%= link_to @game.user.username, @game.user %>
+      <% if signed_in? %>
+          <% if current_user.admin? || current_user == @game.user %>
+            <%= link_to edit_game_path(@game), class: "btn btn-primary", id: "edit-article-btn" do %>
+                Edit
+            <% end %>
+            <%= link_to @game, class: "btn btn-danger", id: "delete-article-btn", method: :delete, data: {confirm: "You sure?"} do %>
+                Delete
+            <% end %>
+          <% end %>
+      <% end %>
+  </div>
+</div>
 
 <div id="game-content">
     <% if @game.image_attachments.count > 0 %>
@@ -47,63 +64,162 @@
       </div>
     <% end %>
   <div class="game-link">
-    <%= link_to @game.link, class: "btn btn-large btn-warning" do %>
-      Play Now
-    <% end %>
-  </div>
-  <div class="follow_form">
-    <% if current_user.following?(@game) %>
-      <%= form_for(current_user.relationships.find_by(game_id: @game.id), html: { method: :delete }) do |f| %>
-          <%= f.submit "Unfollow", class: "btn btn-large" %>
+    <% if @game.status_id == 1 %>
+      <%= link_to @game.link, class: "btn btn-large btn-success" do %>
+        More Info
       <% end %>
     <% else %>
-      <%= form_for(current_user.relationships.build(game_id: @game.id)) do |f| %>
-          <div><%= f.hidden_field :game_id %></div>
-          <%= f.submit "Follow", class: "btn btn-large btn-success" %>
+      <%= link_to @game.link, class: "btn btn-large btn-primary" do %>
+        Play Now
       <% end %>
     <% end %>
   </div>
-  <div class="game-description">
+  <div class="number-of-game-followers">
+      <% if signed_in? %>
+        <% if current_user.voted_for? @game %>
+          <% if current_user.voted_up_on? @game %>
+            <%= link_to dislike_game_path(@game), class: "btn btn-default", method: :put do %>
+              <i class="icon-thumbs-down icon-black"></i> |
+              <%= @game.dislikes.size %>
+            <% end %>
+            <%= link_to unlike_game_path(@game), class: "btn btn-primary", method: :put do %>
+              <i class="icon-thumbs-up icon-white"></i> |
+              <%= @game.likes.size %>
+            <% end %>
+          <% else %>
+            <%= link_to undislike_game_path(@game), class: "btn btn-danger", method: :put do %>
+              <i class="icon-thumbs-down icon-white"></i> |
+              <%= @game.dislikes.size %>
+            <% end %>
+            <%= link_to (like_game_path(@game)), class: "btn btn-default", method: :put do %>
+              <i class="icon-thumbs-up icon-black"></i> |
+              <%= @game.likes.size %>
+            <% end %>
+          <% end %>
+        <% else %>
+            <%= link_to dislike_game_path(@game), class: "btn btn-default", method: :put do %>
+              <i class="icon-thumbs-down icon-black"></i> |
+              <%= @game.dislikes.size %>
+            <% end %>
+            <%= link_to (like_game_path(@game)), class: "btn btn-default", method: :put do %>
+              <i class="icon-thumbs-up icon-black"></i> |
+              <%= @game.likes.size %>
+            <% end %>
+        <% end %>
+      <% else %>
+          <%= link_to dislike_game_path(@game), class: "btn btn-default", method: :put do %>
+            <i class="icon-thumbs-down icon-black"></i> |
+            <%= @game.dislikes.size %>
+          <% end %>
+          <%= link_to (like_game_path(@game)), class: "btn btn-default", method: :put do %>
+            <i class="icon-thumbs-up icon-black"></i> |
+            <%= @game.likes.size %>
+          <% end %>
+      <% end %>
+      <div class="follow_form">
+        <% if signed_in? %>
+          <% if current_user.following?(@game) %>
+            <%= form_for(current_user.relationships.find_by(game_id: @game.id), html: { method: :delete }) do |f| %>
+                <%= f.submit "Unfollow", class: "btn btn-default"%>
+            <% end %>
+          <% else %>
+            <%= form_for(current_user.relationships.build(game_id: @game.id)) do |f| %>
+                <div><%= f.hidden_field :game_id %></div>
+                <%= f.submit "Follow", class: "btn btn-warning" %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <div class="follow-btn">
+            <%= link_to "Follow", follow_without_signed_in_path , class: "btn btn-warning", id: "game-follow-btn" %>
+          </div>
+        <% end %>
+      </div>
+      <i id="user-icon", class="icon-user icon-blue"></i> <%= @game.followers.count %>
+  </div>
+  <div class="subtitle_tab_head">
+    Description
+  </div>
+  <div class="subtitle_content">
     <%= @game.description %>
   </div>
   <br>          
 </div>
 
-  <div class="row">
-      <div id="game_comment">
-        <div class="span6">
-            <%= form_for ([@game, @game.game_comments.build]) do |f| %>
+  
+<div id="game_comment">
+  <%= form_for ([@game, @game.game_comments.build]) do |f| %>
+    <%= f.text_area :content, :rows => "4" %>
+    <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
+  <% end %>
 
-            <%= f.label "Comment" %>
-            <%= f.text_area :content, :rows => "4" %>
-
-            <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
-
-            <% end %>
-        </div>
-      </div>
-  </div>
-  <div class="span8">
-    <% if @game_comments.any? %>
+  <% if @game_comments.any? %>
+    <div class="subtitle_tab_head">
+      Comment (<%= @game.game_comments.count %>)
+    </div>
+  <% end %>
+  <% if @game_comments.any? %>
+    <div class="subtitle_content">
       <% @game_comments.each do |game_comment| %>
-        <span class="content"><%= game_comment.content %></span>
-        <br>
+        <div class="subtitle_tab_head_inner">
+            <div class="owner-article-comment">
+              <%= link_to image_tag(game_comment.user.image_url), game_comment.user %> <%= link_to game_comment.user.username, game_comment.user %>
+            </div>
+          </div>
+          <div class="subtitle_content">           
+            <div>
+              <%= game_comment.content %>
+            </div>
+            <div class="like-dislike">
+              <% if signed_in? %>
+                <% if current_user.voted_for? game_comment %>
+                  <%= link_to "unlike |", unlike_game_game_comment_path(@game, game_comment), method: :put %>
+                  <% if game_comment.likes.size > 0 %>
+                      <i class="icon-thumbs-up icon-blue"></i> 
+                      <%= game_comment.likes.size %> | 
+                      <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+                  <% else %>
+                      <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+                  <% end %>
+                  <% if current_user.admin? || @game_comment.user == current_user %>
+                      | <%= link_to delete_game_game_comment_path(@game, game_comment), class: "btn btn-danger btn-small", method: :delete,
+                                          data: { confirm: "You sure?" } do%>
+                          Delete
+                       <% end %>
+                  <% end %>
+                <% else %>
+                  <%= link_to "like |", like_game_game_comment_path(@game, game_comment), method: :put %>
+                  <% if game_comment.likes.size > 0 %>
+                      <i class="icon-thumbs-up icon-blue"></i>
+                      <%= game_comment.likes.size %> |
+                      <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+                  <% else %>
+                     <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+                  <% end %>
+                  <% if current_user.admin? || @game_comment.user == current_user %>
+                      | <%= link_to delete_game_game_comment_path(@game, game_comment), class: "btn btn-danger btn-small", method: :delete,
+                                          data: { confirm: "You sure?" } do%>
+                          Delete
+                       <% end %>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <%= link_to "like |", like_game_game_comment_path(@game, game_comment), method: :put %>
+                  <% if game_comment.likes.size > 0 %>
+                      <i class="icon-thumbs-up icon-blue"></i>
+                      <%= game_comment.likes.size %> |
+                      <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+                  <% else %>
+                     <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+                  <% end %>
+              <% end %>
+            </div>
+          </div> 
       <% end %>
-    <% end %>
-  </div>
-  <h4><%= link_to "Edit", edit_game_path(@game) %></h4>
+    </div>
+  <% end %>
+</div>
+
   
 
-  <%= link_to (like_game_path(@game)), class: "btn btn-default", method: :put do %>
-    <i class="icon-thumbs-up icon-black"></i>
-  <% end %>
-  <%= link_to unlike_game_path(@game), class: "btn btn-primary", method: :put do %>
-    <i class="icon-thumbs-up icon-white"></i>
-  <% end %>
-  <%= link_to dislike_game_path(@game), class: "btn btn-default", method: :put do %>
-    <i class="icon-thumbs-down icon-black"></i>
-  <% end %>
-  <%= link_to undislike_game_path(@game), class: "btn btn-danger", method: :put do %>
-    <i class="icon-thumbs-down icon-white"></i>
-  <% end %>
+  
   

@@ -19,14 +19,20 @@ class ArticleCommentsController < ApplicationController
 
   def like
     @article_comment = ArticleComment.find(params[:id])
-    @article_comment.liked_by current_user
-    redirect_to @article_comment.article
+    if @article_comment.liked_by current_user
+      redirect_to @article_comment.article
+    else
+      redirect_to '/signin'
+    end
   end
 
   def unlike
     @article_comment = ArticleComment.find(params[:id])
-    @article_comment.unliked_by current_user
-    redirect_to @article_comment.article
+    if @article_comment.unliked_by current_user
+      redirect_to @article_comment.article
+    else 
+      redirect_to '/signin'
+    end
   end
 
   def destroy

@@ -1,7 +1,7 @@
 class Game < ActiveRecord::Base
 	has_many :relationships
 	has_many :followers, :through => :relationships, :source => :user
-	has_many :game_comments, dependent: :destroy
+	has_many :game_comments
 	belongs_to :user
 	has_one :category
 	has_one :status

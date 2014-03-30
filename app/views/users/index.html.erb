@@ -16,12 +16,21 @@
 	</div>
 </header>
 
+<div style="margin-bottom: 10px;">
+	<%= link_to signup_path, class: "btn btn-primary" do %>
+		Create a New User
+	<% end %>
+</div>
 
+<%= will_paginate %>
 <ul id="index-user-article" class="users">
 	<% @users.each do |user| %>
 		<li>
 			<%= image_tag(user.image_url) %>
 			<%= link_to user.username, user %>
+			<% if user.admin? %>
+				| Admin
+			<% end %>
 			<% if current_user.admin? && !current_user?(user) %>
 			  | <%= link_to user, class: "btn btn-danger", method: :delete,
 			                                  data: { confirm: "You sure?" } do%>
@@ -31,4 +40,4 @@
 		</li>
 		<% end %>
 </ul>
-
+<%= will_paginate %>

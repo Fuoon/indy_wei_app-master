@@ -47,7 +47,11 @@ class ImageAttachmentController < ApplicationController
   # DELETE /post_attachments/1.json
   def destroy 
     @image_attachment.destroy
-    redirect_to edit_article_path(@image_attachment.article)
+    if @image_attachment.article != nil
+      redirect_to edit_article_path(@image_attachment.article)
+    else
+      redirect_to edit_game_path(@image_attachment.game)
+    end
   end
 
   private

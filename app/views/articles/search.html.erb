@@ -1,6 +1,35 @@
-<h1>Search</h1>
-<br>
+<header id="games-header-bar" class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<div class="navbar-header">
+			<h1 id="games-header-text">Articles searched</h1>
+		</div>
+		
+		<%= form_tag url_for(controller: 'articles', action: 'search'), method: 'get' do %>
+	       <div style="float:right; padding-top:15px; padding-right: 10px; width: 25%;">
+	       	<%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search', placeholder: 'search articles' %>
+	       </div>
+	       <div style="float:right; padding-top: 10px;" >
+	            <%= button_tag(type: "submit", class: "btn btn-default") do %>
+	            	<i class="icon-search"></i>
+	            <% end %>
+	       </div>
+    	<% end %>
+	</div>
+</header>
 
-<% @articles.each do |article| %>
-  <h1><%= article.title %></h1>
-<% end %>
+<ul id="index-user-article" class="users">
+	<% @articles.each do |article| %>
+		<li>
+			<% if article.image_attachments.count > 0 %>
+				<%= image_tag(article.image_attachments.first.image_url) %>
+			<% end %>
+			<%= link_to article.title, article %>
+			<% if current_user.admin? %>
+			   | <%= link_to article, class: "btn btn-danger", method: :delete,
+			                                  data: { confirm: "You sure?" } do%>
+			        Delete
+			     <% end %>
+			<% end %>
+		</li>
+		<% end %>
+</ul>

@@ -10,3 +10,25 @@
 #show-user .show-username p{
 	margin-top: 10px;
 }
+#uploaded-games .uploaded-game-image #myCarousel{
+	width: 620px;
+	height: 360px;
+	margin: 0px;
+}
+#uploaded-games .uploaded-game-image #myCarousel img{
+	width: 620px;
+	height: 360px;
+}
+
+#show-all-uploaded-games{
+	margin-left: 510px;
+	margin-top: 10px;
+}
+
+#admin-button{
+	margin-left: 5px;
+}
+
+#edit-user-button{
+	float: left;
+}

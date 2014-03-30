@@ -21,7 +21,7 @@
 	<ul>
 	<% @action_games.each do |game| %>
 		<li>
-			<%= link_to image_tag(game.image_url), game %>
+			<%= link_to image_tag(game.image_attachments.first.image_url), game %>
 			<div class="image_title">
 				<h5 class="title"><%= link_to game.name, game %></h5>
 			</div>

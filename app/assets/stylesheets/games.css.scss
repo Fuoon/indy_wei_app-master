@@ -141,10 +141,6 @@
 	font-weight: bold;
 }
 
-#games-header-bar{
-	margin: 30px 25px 30px 25px;
-}
-
 #games-header-text{
 	float: left;
 	margin-bottom: 10px;
@@ -154,24 +150,40 @@
 /*Show Game Page*/
 
 #game-content #myCarousel{
-	width: 830px;
+	width: 1040px;
+}
+
+#game-content{
+	border-bottom: 1px solid #000;
+	margin-bottom: 50px;
 }
 
 #game-content img{
-	width: 830px;
-	height: 477px;
+	width: 1040px;
+	height: 599px;
 }
 
 #game-content .game-link a{
 	font-size: 30px;
 	padding: 20px 35px;
-	margin-left: 350px;
-	float: left;
+	margin-left: 30px;
+	margin-bottom: 20px;
+	width: 970px;
 }
 
-#game-content .follow_form form input{
-	font-size: 30px;
-	padding: 20px 55px;
+#game-content .number-of-game-followers .follow_form form input{
+	float: left;
+	margin-left: 30px;
+}
+
+#game-content .number-of-game-followers a{
+	float: right;
+	margin-right: 30px;
+}
+
+#game-content .number-of-game-followers #user-icon{
+	margin-top: 8px;
+	float: left;
 }
 
 #game-content .game-description{
@@ -179,3 +191,59 @@
 	align: center;
 }
 
+#game-content .subtitle_tab_head{
+	font-size: 1.4em;
+	color: black;
+	margin-left: 60px;
+	margin-right: 60px;
+	margin-top: 30px;
+}
+
+#game-content .subtitle_content{
+	margin-left: 60px;
+	margin-right: 60px;
+	margin-bottom: 10px;
+}
+
+#game_comment .subtitle_content .subtitle_tab_head_inner .owner-article-comment a img{
+	width: 50px;
+	height: 50px;
+	padding: 0px 10px 10px 0px;
+}
+
+#game_comment form{
+	margin-left: 30px;
+	width: 700px;
+}
+
+#game-owner-posted .article-title-info{
+	margin-left: 30px;
+	margin-right: 30px;
+	border-bottom: 1px solid #000;
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+}
+
+#game-owner-posted .article-title-info #edit-article-btn{
+	margin-left: 20px;
+}
+
+#edit-game #myCarousel{
+	margin-left: 40px;
+	width: 1040px;
+}
+
+#edit-game .article-image img{
+	width: 1040px;
+	height: 599px;
+}
+
+#edit-game #myCarousel a{
+	float: right;
+}
+
+ #game-content .number-of-game-followers .follow-btn #game-follow-btn{
+	float: left;
+	margin-left: 30px;
+	margin-right: 0px;
+}

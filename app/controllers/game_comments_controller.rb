@@ -20,8 +20,11 @@ class GameCommentsController < ApplicationController
 	def like
 		@game = Game.find(params[:game_id])
 		@game_comment = GameComment.find(params[:id])
-		@game_comment.liked_by current_user
-		redirect_to @game
+		if @game_comment.liked_by current_user
+			redirect_to @game
+		else	
+			redirect_to '/signin'
+		end
 	end
 
 	def unlike

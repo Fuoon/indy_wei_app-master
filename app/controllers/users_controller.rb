@@ -1,10 +1,16 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only: [:index, :edit, :update, :destroy]
+  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :create_admin, :delete_admin]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page], :per_page => 30)
+    @users = User.paginate(page: params[:page], :per_page => 10)
+  end
+
+  def admin
+    @user = User.find(params[:id])
+    @user.toggle!(:admin)
+    redirect_to @user
   end
 
   def search
@@ -15,6 +21,7 @@ class UsersController < ApplicationController
   	@user = User.find(params[:id])
     @article_comments = @user.article_comments.paginate(page: params[:page], :per_page => 10)
     @game_comments = @user.game_comments.paginate(page: params[:page], :per_page => 10)
+    @uploaded_games = @user.games 
   end
 
   def new
@@ -28,7 +35,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
     else
-      render 'new'
+      redirect_to @user
     end
   end
 
@@ -40,7 +47,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to @user
     else
-      render 'edit'
+      redirect_to edit_user_path(@user)
     end
   end
 

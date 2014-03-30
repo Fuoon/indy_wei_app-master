@@ -59,7 +59,7 @@
                   <%= image_tag @image_attachments.fourth.image_url %>
                   <div class="carousel-caption">
                     <% if current_user.admin? || @article.user == current_user %>
-                       | <%= link_to @image_attachments.forth, class: "btn btn-danger", method: :delete,
+                       | <%= link_to @image_attachments.fourth, class: "btn btn-danger", method: :delete,
                                                       data: { confirm: "You sure?" } do%>
                             Delete
                          <% end %>

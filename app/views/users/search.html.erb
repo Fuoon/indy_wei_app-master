@@ -1,0 +1,32 @@
+<header id="games-header-bar" class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<div class="navbar-header">
+			<h1 id="games-header-text">Users searched</h1>
+		</div>
+		<%= form_tag url_for(controller: 'users', action: 'search'), method: 'get' do %>
+	       <div style="float:right; padding-top:15px; padding-right: 10px; width: 25%;">
+	       	<%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search', placeholder: 'search articles' %>
+	       </div>
+	       <div style="float:right; padding-top: 10px;" >
+	            <%= button_tag(type: "submit", class: "btn btn-default") do %>
+	            	<i class="icon-search"></i>
+	            <% end %>
+	       </div>
+    	<% end %>
+	</div>
+</header>
+
+<ul id="index-user-article" class="users">
+	<% @users.each do |user| %>
+		<li>
+			<%= image_tag(user.image_url) %>
+			<%= link_to user.username, user %>
+			<% if current_user.admin? && !current_user?(user) %>
+			  | <%= link_to user, class: "btn btn-danger", method: :delete,
+			                                  data: { confirm: "You sure?" } do%>
+			        delete
+			     <% end %>
+			<% end %>
+		</li>
+		<% end %>
+</ul>

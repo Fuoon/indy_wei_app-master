@@ -37,17 +37,16 @@
 	margin-bottom: 0px;
 }
 
-#show-article .article-title a {
-	margin-top: 20px;
-	float: right;
-}
-
 #show-article .article-title-info{
 	margin-left: 30px;
 	margin-right: 30px;
 	border-bottom: 1px solid #000;
 	margin-bottom: 20px;
 	padding-bottom: 5px;
+}
+
+#show-article .article-title-info #edit-article-btn{
+	margin-left: 30px;
 }
 
 #show-article .article-content{
