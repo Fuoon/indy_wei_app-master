@@ -71,7 +71,7 @@ class GamesController < ApplicationController
   end
 
   def show_all_games
-    @games = Game.paginate(page: params[:page], :per_page => 30)
+    @games = Game.paginate(page: params[:page], :per_page => 10)
   end
 
   def search
@@ -92,7 +92,7 @@ class GamesController < ApplicationController
     @image_attachments = @game.image_attachments.all
     @category = Category.find(@game.category_id)
     @status = Status.find(@game.status_id)
-    @game_comments = @game.game_comments.paginate(page: params[:page])
+    @game_comments = @game.game_comments.all
   end
 
   def follow_without_signed_in
@@ -107,10 +107,14 @@ class GamesController < ApplicationController
         params[:image_attachments]['image'].each do |a|
           @image_attachment = @game.image_attachments.create!(:image => a, :game_id => @game_id)
         end
+        redirect_to @game
+      else
+        flash[:unsuccess] = "Unable to share a game, need to upload a photo"
+        @game.destroy
+        redirect_to new_game_path(@game)
       end
-      redirect_to @game
     else
-      redirect_to games_path
+      render 'new'
     end
   end
 
@@ -127,21 +131,30 @@ class GamesController < ApplicationController
   def update
     @game = Game.find(params[:id])
     if @game.update_attributes(game_params)
-      if params[:image_attachments] != nil
-        params[:image_attachments]['image'].each do |a|
-          @image_attachment = @game.image_attachments.create!(:image => a, :game_id => @game_id)
+      if params[:image_attachments] == nil && @game.image_attachments.count == 0
+        flash[:unsuccess] = "Unable to edit a shared game, need to upload a photo"
+        redirect_to edit_game_path(@game)
+      else
+        if params[:image_attachments] != nil
+          params[:image_attachments]['image'].each do |a|
+            @image_attachment = @game.image_attachments.create!(:image => a, :game_id => @game_id)
+          end
         end
+        redirect_to @game
       end
-      redirect_to @game
     else
-      render 'edit'
+      flash[:unsuccess] = "Not everything is filled"
+      redirect_to edit_game_path(@game)
     end
   end
 
   def like
     @game = Game.find(params[:id])
     if @game.liked_by current_user
-        redirect_to @game 
+        respond_to do |format|
+          format.html { redirect_to @game }
+          format.js
+        end 
     else
         redirect_to '/signin'
     end
@@ -150,13 +163,19 @@ class GamesController < ApplicationController
   def unlike
     @game = Game.find(params[:id])
     @game.unliked_by current_user
-    redirect_to @game
+    respond_to do |format|
+      format.html { redirect_to @game }
+      format.js
+    end 
   end
 
   def dislike
     @game = Game.find(params[:id])
     if @game.disliked_by current_user
-        redirect_to @game
+        respond_to do |format|
+          format.html { redirect_to @game }
+          format.js
+        end
     else
         redirect_to '/signin'
     end
@@ -165,7 +184,10 @@ class GamesController < ApplicationController
   def undislike
     @game = Game.find(params[:id])
     @game.undisliked_by current_user
-    redirect_to @game
+    respond_to do |format|
+      format.html { redirect_to @game }
+      format.js
+    end
   end
 
   private

@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
     else
-      redirect_to @user
+      render 'new'
     end
   end
 
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to @user
     else
-      redirect_to edit_user_path(@user)
+      render 'edit'
     end
   end
 

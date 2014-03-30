@@ -4,6 +4,7 @@
 <div class="row">
   <div class="share-a-game">
     <%= form_for (@game), :html => {:multipart => true} do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
       <div id="game_form">      	  
           <%= f.label :name %>
           <%= f.text_field :name %>

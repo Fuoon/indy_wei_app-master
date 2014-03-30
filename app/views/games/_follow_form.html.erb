@@ -1,0 +1,7 @@
+<div class="follow_form">
+	<% if current_user.following?(@game) %>
+		<%= render 'unfollow' %>
+	<% else %>
+		<%= render 'follow' %>
+	<% end %>
+</div>

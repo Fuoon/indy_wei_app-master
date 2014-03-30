@@ -31,10 +31,14 @@ class ArticlesController < ApplicationController
         params[:image_attachments]['image'].each do |a|
           @image_attachment = @article.image_attachments.create!(:image => a, :article_id => @article_id)
         end
-      end
-  		redirect_to @article
+        redirect_to @article 
+      else
+        flash[:unsuccess] = "Unsuccessful need to upload a photo"
+        @article.destroy
+        redirect_to new_article_path(@artciel)
+  		end
   	else
-  		redirect_to 'articles/article'
+      render 'new'
   	end
   end
 
@@ -50,15 +54,21 @@ class ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
-    if @article.update_attributes(article_params)
-      if params[:image_attachments] != nil
-        params[:image_attachments]['image'].each do |a|
-          @image_attachment = @article.image_attachments.create!(:image => a, :article_id => @article_id)
+    if @article.update_attributes(article_params) 
+      if params[:image_attachments] == nil && @article.image_attachments.count == 0
+        flash[:unsuccess] = "Need a photo to upload an Article"
+        redirect_to edit_article_path(@article)
+      else
+        if params[:image_attachments] != nil 
+            params[:image_attachments]['image'].each do |a|
+              @image_attachment = @article.image_attachments.create!(:image => a, :article_id => @article_id)
+            end
         end
+        redirect_to @article
       end
-      redirect_to @article 
     else
-      redirect_to @article
+      flash[:unsuccess] = "Not everything is filled"
+      redirect_to edit_article_path(@article)
     end
   end
 

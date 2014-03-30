@@ -1,0 +1,14 @@
+<div class="like-form">
+  <% if current_user.voted_for? @game %>
+      <% if current_user.voted_up_on? @game %>
+        <%= render 'dislike' %>
+        <%= render 'unlike' %>
+      <% else %>
+        <%= render 'undislike' %>
+        <%= render 'like' %>
+      <% end %>
+    <% else %>
+        <%= render 'dislike' %>
+        <%= render 'like' %>
+    <% end %>
+</div>

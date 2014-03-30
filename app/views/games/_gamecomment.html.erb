@@ -1,0 +1,61 @@
+<div class="subtitle_tab_head">
+  Comment (<%= @game.game_comments.count %>)
+</div>
+<div class="subtitle_content">
+  <% @game_comments.each do |game_comment| %>
+    <div class="subtitle_tab_head_inner">
+        <div class="owner-article-comment">
+          <%= link_to image_tag(game_comment.user.image_url), game_comment.user %> <%= link_to game_comment.user.username, game_comment.user %>
+        </div>
+      </div>
+      <div class="subtitle_content">           
+        <div>
+          <%= game_comment.content %>
+        </div>
+        <div class="like-dislike">
+          <% if signed_in? %>
+            <% if current_user.voted_for? game_comment %>
+              <%= link_to "unlike |", unlike_game_game_comment_path(@game, game_comment), method: :put %>
+              <% if game_comment.likes.size > 0 %>
+                  <i class="icon-thumbs-up icon-blue"></i> 
+                  <%= game_comment.likes.size %> | 
+                  <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+              <% else %>
+                  <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+              <% end %>
+              <% if current_user.admin? || @game_comment.user == current_user %>
+                  | <%= link_to delete_game_game_comment_path(@game, game_comment), class: "btn btn-danger btn-small", method: :delete,
+                                      data: { confirm: "You sure?" } do%>
+                      Delete
+                   <% end %>
+              <% end %>
+            <% else %>
+              <%= link_to "like |", like_game_game_comment_path(@game, game_comment), method: :put %>
+              <% if game_comment.likes.size > 0 %>
+                  <i class="icon-thumbs-up icon-blue"></i>
+                  <%= game_comment.likes.size %> |
+                  <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+              <% else %>
+                 <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+              <% end %>
+              <% if current_user.admin? || @game_comment.user == current_user %>
+                  | <%= link_to delete_game_game_comment_path(@game, game_comment), class: "btn btn-danger btn-small", method: :delete,
+                                      data: { confirm: "You sure?" } do%>
+                      Delete
+                   <% end %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= link_to "like |", like_game_game_comment_path(@game, game_comment), method: :put %>
+              <% if game_comment.likes.size > 0 %>
+                  <i class="icon-thumbs-up icon-blue"></i>
+                  <%= game_comment.likes.size %> |
+                  <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+              <% else %>
+                 <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
+              <% end %>
+          <% end %>
+        </div>
+      </div> 
+  <% end %>
+</div>

@@ -1,0 +1,6 @@
+<%= link_to unlike_game_path(@game), class: "btn btn-primary", method: :put, remote: true do %>
+  <i class="icon-thumbs-up icon-white"></i> |
+  <strong id="likes" class="stat">
+	<%= @game.likes.size %>
+  </strong>
+<% end %>

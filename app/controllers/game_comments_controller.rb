@@ -10,7 +10,10 @@ class GameCommentsController < ApplicationController
 		@game_comment = current_user.game_comments.build(game_comment_params)
 		@game_comment.game_id = @game.id
 		if @game_comment.save
-			redirect_to @game
+			respond_to do |format|
+	          format.html { redirect_to @game }
+	          format.js
+	        end 
 		else
 			@game_comment = []
 			redirect_to @game
@@ -37,7 +40,10 @@ class GameCommentsController < ApplicationController
 	def destroy
 		@game = Game.find(params[:game_id])
 		@game_comment = GameComment.find(params[:id]).destroy
-		redirect_to @game
+		respond_to do |format|
+          format.html { redirect_to @game }
+          format.js
+        end 
 	end
 
 	private 
