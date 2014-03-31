@@ -1,3 +1,21 @@
+<header id="games-header-bar" class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<div class="navbar-header">
+			<h1 id="games-header-text">Profile</h1>
+		</div>
+		<%= form_tag url_for(controller: 'users', action: 'search'), method: 'get' do %>
+	       <div style="float:right; padding-top:15px; padding-right: 10px; width: 25%;">
+	       	<%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search', placeholder: 'search users' %>
+	       </div>
+	       <div style="float:right; padding-top: 10px;" >
+	            <%= button_tag(type: "submit", class: "btn btn-default") do %>
+	            	<i class="icon-search"></i>
+	            <% end %>
+	       </div>
+    	<% end %>
+	</div>
+</header>
+
 <div id="show-user">
 	<div class="row">
 	  <aside class="span4">
@@ -8,8 +26,8 @@
 	        </div>
 	        <div class="show-username">
 	        	<p><%= @user.username %></p> 
-	        	<% if @user == current_user %>
-					<%= link_to edit_user_path(current_user), class: "btn btn-primary", id: "edit-user-button" do %>
+	        	<% if @user == current_user || current_user.admin? %>
+					<%= link_to edit_user_path(@user), class: "btn btn-primary", id: "edit-user-button" do %>
 					    Edit
 					<% end %>
 	        	<% end %>
@@ -45,11 +63,18 @@
 			  	<% end %>
 			  	<span class="content"><%= article_comment.content %></span>
 				  <span class="timestamp">
-				    Posted <%= time_ago_in_words(article_comment.created_at) %> ago.
+				    Posted <%= time_ago_in_words(article_comment.created_at) %> ago. 
+					<% if article_comment.article != nil %>
+						| <%= link_to delete_article_article_comment_path(article_comment.article, article_comment), class: "btn btn-danger btn-small", method: :delete,
+                                            data: { confirm: "You sure?" } do%>
+                            Delete
+                         <% end %>
+					<% end %>
 				  </span>	
 			  <% end %>
 			</li>
 	      </ol>
+	      <%= will_paginate @article_comments %>
 	    <% end %>
 	  </div>
 	  <aside class="span4">
@@ -70,69 +95,124 @@
 			  	<span class="content"><%= game_comment.content %></span>
 				  <span class="timestamp">
 				    Posted <%= time_ago_in_words(game_comment.created_at) %> ago.
+				    <% if game_comment.game != nil %>
+						| <%= link_to delete_game_game_comment_path(game_comment.game, game_comment), class: "btn btn-danger btn-small", method: :delete,
+			                              data: { confirm: "You sure?" } do%>
+			              Delete
+	                   <% end %>
+				    <% end %>
 				  </span>	
 			  <% end %>
 			</li>
 	      </ol>
+		  <%= will_paginate @game_comments %>
 	    <% end %>
 	  </div>
 	</div>
 </div>
 <div class="row">
-	<aside class="span4">
-		<section>
-		</section>
-	</aside>
+	<% if @user != current_user %>
+		<% if signed_in? && @user.games.count > 0 %>
+			<div id="lightbox">
+				<h1>Shared Games</h1>
+				<ul>
+					<% @user.games.each do |game| %>
+						<li>
+							<%= link_to image_tag(game.image_attachments.first.image_url), game %>
+							<div class="image_title">
+								<h5 class="title"><%= link_to game.name, game %></h5>
+							</div>
+						</li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+		<% if signed_in? && @user.followings.count > 0 %>
+			<div id="lightbox">
+				<h1>Following Games</h1>
+				<ul>
+					<% @user.followings.each do |game| %>
+						<li>
+							<%= link_to image_tag(game.image_attachments.first.image_url), game %>
+							<div class="image_title">
+								<h5 class="title"><%= link_to game.name, game %></h5>
+							</div>
+						</li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+	<% else %>
+		<aside class="span4">
+			<section>
+			</section>
+		</aside>
 	<div class="span8">
 		<div id="uploaded-games">
 			<div class="uploaded-game-image">
-		    <% if @uploaded_games.count > 0 %>
-		    	<h3>Uploaded Games (<%= @uploaded_games.count %>)</h3>
-		      <div id="myCarousel" class="carousel slide">
-		        <ol class="carousel-indicators">
-		          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-		          <li data-target="#myCarousel" data-slide-to="1"></li>
-		          <li data-target="#myCarousel" data-slide-to="2"></li>
-		          <li data-target="#myCarousel" data-slide-to="3"></li>
-		          <li data-target="#myCarousel" data-slide-to="4"></li>
-		        </ol>
-		        <div class="carousel-inner">
-		          <div class="active item">
-		            <%= link_to image_tag(@uploaded_games.first.image_attachments.first.image_url), @uploaded_games.first %>
-		          </div>
-		          <% if @uploaded_games.count > 1 %>
-		            <div class="item">
-		              <%= link_to image_tag(@uploaded_games.second.image_attachments.first.image_url), @uploaded_games.second %>
-		            </div>
-		          <% end %>
-		          <% if @uploaded_games.count > 2 %>
-		            <div class="item">
-		              <%= link_to image_tag(@uploaded_games.third.image_attachments.first.image_url), @uploaded_games.third %>
-		            </div>
-		          <% end %>
-		          <% if @uploaded_games.count > 3 %>
-		            <div class="item">
-		              <%= link_to image_tag(@uploaded_games.fourth.image_attachments.first.image_url), @uploaded_games.fourth %>
-		            </div>
-		          <% end %>
-		          <% if @uploaded_games.count > 4 %>
-		            <div class="item">
-		              <%= link_to image_tag(@uploaded_games.fifth.image_attachments.first.image_url), @uploaded_games.fifth %>
-		            </div>
-		          <% end %>
-		        </div>
-		        <!-- Carousel nav -->
-		        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-		        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-		      </div>
-		    <% end %>
-		  </div>
-		</div>
-		<% if @uploaded_games.count > 0 %>
-			<%= link_to uploaded_games_path, class: "btn btn-primary btn-large", id: "show-all-uploaded-games" do %>
-		        Show All
-		    <% end %>
-		<% end %>
+			    <% if @uploaded_games.count > 0 %>
+				    	<h3>Shared Games (<%= @uploaded_games.count %>)</h3>
+				      <div id="myCarousel" class="carousel slide">
+				        <ol class="carousel-indicators">
+				          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				          <li data-target="#myCarousel" data-slide-to="1"></li>
+				          <li data-target="#myCarousel" data-slide-to="2"></li>
+				          <li data-target="#myCarousel" data-slide-to="3"></li>
+				          <li data-target="#myCarousel" data-slide-to="4"></li>
+				        </ol>
+				        <div class="carousel-inner">
+				          <div class="active item">
+				            <%= link_to image_tag(@uploaded_games.first.image_attachments.first.image_url), @uploaded_games.first %>
+				            <div class="carousel-caption">
+								<%= link_to @uploaded_games.first.name, @uploaded_games.first %>	
+				              </div>
+				          </div>
+				          <% if @uploaded_games.count > 1 %>
+				            <div class="item">
+				              <%= link_to image_tag(@uploaded_games.second.image_attachments.first.image_url), @uploaded_games.second %>
+				              <div class="carousel-caption">
+								<%= link_to @uploaded_games.second.name, @uploaded_games.second %>	
+				              </div>
+				            </div>
+				          <% end %>
+				          <% if @uploaded_games.count > 2 %>
+				            <div class="item">
+				              <%= link_to image_tag(@uploaded_games.third.image_attachments.first.image_url), @uploaded_games.third %>
+				              <div class="carousel-caption">
+								<%= link_to @uploaded_games.third.name, @uploaded_games.third %>	
+				              </div>
+				            </div>
+				          <% end %>
+				          <% if @uploaded_games.count > 3 %>
+				            <div class="item">
+				              <%= link_to image_tag(@uploaded_games.fourth.image_attachments.first.image_url), @uploaded_games.fourth %>
+				              <div class="carousel-caption">
+								<%= link_to @uploaded_games.fourth.name, @uploaded_games.fourth %>	
+				              </div>
+				            </div>
+				          <% end %>
+				          <% if @uploaded_games.count > 4 %>
+				            <div class="item">
+				              <%= link_to image_tag(@uploaded_games.fifth.image_attachments.first.image_url), @uploaded_games.fifth %>
+				              <div class="carousel-caption">
+								<%= link_to @uploaded_games.fifth.name, @uploaded_games.fifth %>	
+				              </div>
+				            </div>
+				          <% end %>
+				        </div>
+				        <!-- Carousel nav -->
+				        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+				        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+				      </div>
+				    <% end %>
+				  </div>
+				</div>
+			<% end %>
+			<% if @uploaded_games.count > 4 && @user == current_user %>
+				<%= link_to uploaded_games_path(@user), class: "btn btn-primary btn-large", id: "show-all-uploaded-games" do %>
+			        Show All
+			<% end %>
+	<% end %>
 	</div>
 </div>
 

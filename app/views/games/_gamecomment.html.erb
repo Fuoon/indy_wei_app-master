@@ -23,7 +23,7 @@
               <% else %>
                   <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
               <% end %>
-              <% if current_user.admin? || @game_comment.user == current_user %>
+              <% if current_user.admin? || game_comment.user == current_user %>
                   | <%= link_to delete_game_game_comment_path(@game, game_comment), class: "btn btn-danger btn-small", method: :delete,
                                       data: { confirm: "You sure?" } do%>
                       Delete
@@ -38,7 +38,7 @@
               <% else %>
                  <span class="timestamp">Posted <%= time_ago_in_words(game_comment.created_at) %> ago.</span>
               <% end %>
-              <% if current_user.admin? || @game_comment.user == current_user %>
+              <% if current_user.admin? || game_comment.user == current_user %>
                   | <%= link_to delete_game_game_comment_path(@game, game_comment), class: "btn btn-danger btn-small", method: :delete,
                                       data: { confirm: "You sure?" } do%>
                       Delete

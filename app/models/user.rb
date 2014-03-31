@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
     has_many :relationships
     has_many :articles
-    has_many :games
+    has_many :games, dependent: :destroy
     has_many :followings, :through => :relationships, :source => :game
     has_many :article_comments, dependent: :destroy
     has_many :game_comments, dependent: :destroy

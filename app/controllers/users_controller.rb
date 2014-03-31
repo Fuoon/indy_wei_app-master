@@ -19,8 +19,8 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
-    @article_comments = @user.article_comments.paginate(page: params[:page], :per_page => 10)
-    @game_comments = @user.game_comments.paginate(page: params[:page], :per_page => 10)
+    @article_comments = @user.article_comments.paginate(page: params[:page], :per_page => 5)
+    @game_comments = @user.game_comments.paginate(page: params[:page], :per_page => 5)
     @uploaded_games = @user.games 
   end
 
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
 
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
+      redirect_to(root_url) unless current_user?(@user) || current_user.admin?
     end
 
     def admin_user

@@ -17,7 +17,11 @@
 </header>
 
 <div id="lightbox">
-	<h1><%= link_to "Action", show_all_action_games_path %></h1>
+	<h1>
+		<%= link_to show_all_action_games_path, {:style => 'color: #00FFFF;'} do %>
+			Action <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @action_games_list.each do |game| %>
 		<li>
@@ -33,7 +37,11 @@
 </div>
 
 <div id="lightbox">
-	<h1><%= link_to "Arcade", show_all_arcade_games_path %></h1>
+	<h1>
+		<%= link_to show_all_arcade_games_path, {:style => 'color: #40FF00;'} do %>
+			Arcade <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @arcade_games_list.each do |game| %>
 		<li>
@@ -49,7 +57,11 @@
 </div>
 
 <div id="lightbox">
-	<h1><%= link_to "Adventure", show_all_adventure_games_path %></h1>
+	<h1>
+		<%= link_to show_all_adventure_games_path, {:style => 'color: #CC2EFA;'} do %>
+			Adventure <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @adventure_games_list.each do |game| %>
 		<li>
@@ -65,7 +77,11 @@
 </div>
 
 <div id="lightbox">
-	<h1><%= link_to "Puzzle", show_all_puzzle_games_path %></h1>
+	<h1>
+		<%= link_to show_all_puzzle_games_path, {:style => 'color: #FA5858;'} do %>
+			Puzzle <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @puzzle_games_list.each do |game| %>
 		<li>
@@ -81,7 +97,11 @@
 </div>
 
 <div id="lightbox">
-	<h1><%= link_to "RPG", show_all_rpg_games_path %></h1>
+	<h1>
+		<%= link_to show_all_rpg_games_path, {:style => 'color: #58FA58;'} do %>
+			RPG <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @rpg_games_list.each do |game| %>
 		<li>
@@ -96,7 +116,11 @@
 </div>
 
 <div id="lightbox">
-	<h1><%= link_to "Shooter", show_all_shooter_games_path %></h1>
+	<h1>
+		<%= link_to show_all_shooter_games_path, {:style => 'color: #2E9AFE;'} do %>
+			Shooter <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @shooter_games_list.each do |game| %>
 		<li>
@@ -112,7 +136,11 @@
 </div>
 
 <div id="lightbox">
-	<h1><%= link_to "Sport", show_all_sport_games_path %></h1>
+	<h1>
+		<%= link_to show_all_sport_games_path, {:style => 'color: #FF0040;'} do %>
+			Sport <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @sport_games_list.each do |game| %>
 		<li>
@@ -128,7 +156,11 @@
 </div>
 
 <div id="lightbox">
-	<h1><%= link_to "Strategy", show_all_strategy_games_path %></h1>
+	<h1>
+		<%= link_to show_all_strategy_games_path, {:style => 'color: #FFFF00;'} do %>
+			Strategy <i class="icon-plus icon-white"></i>
+		<% end %>
+	</h1>
 	<ul>
 	<% @strategy_games_list.each do |game| %>
 		<li>

@@ -13,10 +13,12 @@
 	</ul>
 </div>
 
+
+<%= will_paginate @articles %>
 <div id="home-article-list">
 	<ul class="home">
-	<% if @articles_list.count > 0 %>
-		<% @articles_list.each do |article| %>
+	<% if @articles.count > 0 %>
+		<% @articles.each do |article| %>
 			<li>
 				<% if article.image_attachments.count > 0 %>
 					<a href="#"><%= link_to image_tag(article.image_attachments.first.image_url), article %></a>
@@ -40,4 +42,4 @@
 	<% end %>
 	</ul>
 </div>
-
+<%= will_paginate @articles %>
