@@ -16,7 +16,47 @@
 //= require turbolinks
 //= require_tree .
 
+$(function() {
+  $('#articles .pagination').on('click', 'a', function() {
+    $.getScript(this.href);
+    return false;
+  });
+});
 
+$(function() {
+  $('#users .pagination').on('click', 'a', function() {
+    $.getScript(this.href);
+    return false;
+  });
+});
+
+$(function() {
+  $('#games .pagination').on('click', 'a', function() {
+    $.getScript(this.href);
+    return false;
+  });
+});
+
+$(function() {
+  $('#user-article-comments .pagination').on('click', 'a', function() {
+    $.getScript(this.href);
+    return false;
+  });
+});
+
+$(function() {
+  $('#user-game-comments .pagination').on('click', 'a', function() {
+    $.getScript(this.href);
+    return false;
+  });
+});
+
+$(function() {
+  $('#articles-list .pagination').on('click', 'a', function() {
+    $.getScript(this.href);
+    return false;
+  });
+});
 
 
 

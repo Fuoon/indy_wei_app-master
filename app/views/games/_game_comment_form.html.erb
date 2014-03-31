@@ -1,5 +1,5 @@
 <div class="game-comment-form">
-  <% if @game_comments.any? %>
-    <%= render 'gamecomment' %>
+  <% if game_comments_data.any? %>
+    <%= render 'gamecomment', game_comments_data: game_comments_data %>
   <% end %>
 </div>

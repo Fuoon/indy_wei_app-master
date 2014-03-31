@@ -79,8 +79,7 @@ class GamesController < ApplicationController
   end
 
   def uploaded_games
-    @user = User.find(params[:id])
-    @games = @user.games
+    @games = current_user.games
   end
 
   def new

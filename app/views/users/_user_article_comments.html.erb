@@ -1,0 +1,22 @@
+<ol class="microposts">
+<li>
+  <% @article_comments.each do |article_comment| %>
+  	<% if article_comment.article == nil %>
+		<span class="title" style="color: red;">The Article was deleted</span>
+  	<% else %>
+		<span class="title"><%= link_to article_comment.article.title, article_comment.article %></span>
+  	<% end %>
+  	<span class="content"><%= article_comment.content %></span>
+	  <span class="timestamp">
+	    Posted <%= time_ago_in_words(article_comment.created_at) %> ago. 
+		<% if article_comment.article != nil %>
+			| <%= link_to delete_article_article_comment_path(article_comment.article, article_comment), class: "btn btn-danger btn-small", method: :delete,
+                                data: { confirm: "You sure?" } do%>
+                Delete
+             <% end %>
+		<% end %>
+	  </span>	
+  <% end %>
+</li>
+</ol>
+<%= will_paginate @article_comments, :param_name => 'article_page' %>

@@ -71,79 +71,11 @@
   </div>
 </div>
 <div id="article_comment">
-    <%= form_for ([@article, @article.article_comments.build]) do |f| %>
+    <%= form_for ([@article, @article.article_comments.build]), remote: true do |f| %>
       <%= f.text_area :content, :rows => "4" %>
       <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
     <% end %>
-    <% if @article_comments.any? %>
-      <div class="subtitle_tab_head">
-        Comment (<%= @article.article_comments.count %>)
-      </div>
-    <% end %>
-    <% if @article_comments.any? %>
-      <div class="subtitle_content"> 
-        <% @article_comments.each do |article_comment| %>
-          <div class="subtitle_tab_head_inner">
-            <div class="owner-article-comment">
-              <%= link_to image_tag(article_comment.user.image_url), article_comment.user %> <%= link_to article_comment.user.username, article_comment.user %>
-            </div>
-          </div>
-          <div class="subtitle_content">           
-            <div>
-              <%= article_comment.content %>
-            </div>
-            <div class="like-dislike">
-              <% if signed_in? %>
-                <% if current_user.voted_for? article_comment %>
-                  <%= link_to "unlike |", unlike_article_article_comment_path(@article, article_comment), method: :put %>
-                  <% if article_comment.likes.size > 0 %>
-                      <i class="icon-thumbs-up icon-blue"></i> 
-                      <%= article_comment.likes.size %> | 
-                      <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
-                  <% else %>
-                      <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
-                  <% end %>
-                  <% if signed_in? %>
-                    <% if current_user.admin? || article_comment.user == current_user %>
-                        | <%= link_to delete_article_article_comment_path(@article, article_comment), class: "btn btn-danger btn-small", method: :delete,
-                                            data: { confirm: "You sure?" } do%>
-                            Delete
-                         <% end %>
-                    <% end %>
-                  <% end %>
-                <% else %>
-                  <%= link_to "like |", like_article_article_comment_path(@article, article_comment), method: :put %>
-                  <% if article_comment.likes.size > 0 %>
-                      <i class="icon-thumbs-up icon-blue"></i>
-                      <%= article_comment.likes.size %> |
-                      <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
-                  <% else %>
-                     <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
-                  <% end %>
-                  <% if signed_in? %>
-                    <% if current_user.admin? || article_comment.user == current_user %>
-                        | <%= link_to delete_article_article_comment_path(@article, article_comment), class: "btn btn-danger btn-small", method: :delete,
-                                            data: { confirm: "You sure?" } do%>
-                            Delete
-                         <% end %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              <% else %>
-                  <%= link_to "like |", like_article_article_comment_path(@article, article_comment), method: :put %>
-                  <% if article_comment.likes.size > 0 %>
-                      <i class="icon-thumbs-up icon-blue"></i>
-                      <%= article_comment.likes.size %> |
-                      <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
-                  <% else %>
-                     <span class="timestamp">Posted <%= time_ago_in_words(article_comment.created_at) %> ago.</span>
-                  <% end %>
-              <% end %>
-            </div>
-          </div> 
-        <% end %>   
-      </div>
-    <% end %>
+    <%= render 'article_comment_form', article_comments_data: @article_comments %>
 </div>
 
 

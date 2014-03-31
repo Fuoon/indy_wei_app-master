@@ -106,7 +106,9 @@
              <%= p.file_field :image, :multiple => true, name: "image_attachments[image][]" %>
           <% end %>
 
-      <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+      <div class="save-btn">
+        <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+      </div>
     <% end %>
   </div>
 </div>

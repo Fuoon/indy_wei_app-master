@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page], :per_page => 10)
+    @users = User.paginate(page: params[:page], :per_page => 5)
   end
 
   def admin
@@ -19,8 +19,8 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
-    @article_comments = @user.article_comments.paginate(page: params[:page], :per_page => 5)
-    @game_comments = @user.game_comments.paginate(page: params[:page], :per_page => 5)
+    @article_comments = @user.article_comments.paginate(page: params[:article_page], per_page: 5)
+    @game_comments = @user.game_comments.paginate(page: params[:game_page], per_page: 5)
     @uploaded_games = @user.games 
   end
 

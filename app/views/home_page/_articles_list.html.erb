@@ -1,0 +1,29 @@
+<%= will_paginate @articles_list %>
+<div id="home-article-list">
+	<ul class="home">
+	<% if @articles_list.count > 0 %>
+		<% @articles_list.each do |article| %>
+			<li>
+				<% if article.image_attachments.count > 0 %>
+					<a href="#"><%= link_to image_tag(article.image_attachments.first.image_url), article %></a>
+				<% end %>
+				<div class="article-title">
+					<a href=""><%= link_to (truncate article.title, length: 50), article, {:style => 'color: #3e433e;'} %></a>
+				</div>
+				<div class="by">
+					<p> by </p>
+				</div>
+				<div class="article-creator">
+					<p> <%= link_to article.user.username, article.user, {:style=>'color: #089e00;'} %> <%= time_ago_in_words(article.created_at) %> ago</p>
+				</div>
+				<div class="article-content">
+					<p>
+						<%= truncate article.content, length: 250 %> <%= link_to " Read more ", article, {:style=>'color: #089e00;'} %>
+					</p>
+				</div>
+			</li>
+		<% end %>
+	<% end %>
+	</ul>
+</div>
+<%= will_paginate @articles_list %>

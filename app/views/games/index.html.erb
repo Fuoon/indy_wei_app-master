@@ -98,7 +98,7 @@
 
 <div id="lightbox">
 	<h1>
-		<%= link_to show_all_rpg_games_path, {:style => 'color: #58FA58;'} do %>
+		<%= link_to show_all_rpg_games_path, {:style => 'color: #FFFF00;'} do %>
 			RPG <i class="icon-plus icon-white"></i>
 		<% end %>
 	</h1>
@@ -108,6 +108,7 @@
 			<% if game.image_attachments.count > 0 %>
 				<%= link_to image_tag(game.image_attachments.first.image_url), game %>
 			<% end %>
+			<div class="image_title">
 				<h5 class="title"><%= link_to game.name, game %></h5>
 			</div>
 		</li>

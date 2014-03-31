@@ -1,2 +1,2 @@
-$(".game-comment-form").html("<%= escape_javascript(render('games/gamecomment')) %>")
+$(".game-comment-form").html("<%= escape_javascript(render('games/gamecomment', game_comments_data: @game_comments)) %>")
 

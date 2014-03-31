@@ -11,10 +11,12 @@
       <span class="timestamp">Posted <%= time_ago_in_words(@game.created_at) %> ago. By </span> 
       <%= link_to @game.user.username, @game.user %>
       <% if signed_in? %>
-          <% if current_user.admin? || current_user == @game.user %>
+          <% if current_user == @game.user %>
             <%= link_to edit_game_path(@game), class: "btn btn-primary", id: "edit-article-btn" do %>
                 Edit
             <% end %>
+          <% end %>
+          <% if current_user.admin? || current_user == @game.user %>
             <%= link_to @game, class: "btn btn-danger", id: "delete-article-btn", method: :delete, data: {confirm: "You sure?"} do %>
                 Delete
             <% end %>
@@ -65,9 +67,6 @@
     <% end %>
   <div class="game-link">
     <% if @game.status_id == 1 %>
-      <%= link_to @game.link, class: "btn btn-large btn-success" do %>
-        More Info
-      <% end %>
     <% else %>
       <%= link_to @game.link, class: "btn btn-large btn-primary" do %>
         Play Now
@@ -106,11 +105,11 @@
 </div>
 
 <div id="game_comment">
-  <%= form_for [@game, @game.game_comments.build] do |f| %>
+  <%= form_for [@game, @game.game_comments.build], remote: true do |f| %>
     <%= f.text_area :content, :rows => "4" %>
     <%= f.submit "Comment", class: "btn btn-large btn-primary" %>
   <% end %>
-  <%= render 'game_comment_form' %>
+  <%= render 'game_comment_form', game_comments_data: @game_comments %>
 </div>
 
   

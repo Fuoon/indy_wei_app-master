@@ -1,3 +1,22 @@
+<header id="games-header-bar" class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<div class="navbar-header">
+			<h1 id="games-header-text">News</h1>
+		</div>
+		
+		<%= form_tag url_for(controller: 'articles', action: 'search'), method: 'get' do %>
+	       <div style="float:right; padding-top:15px; padding-right: 10px; width: 25%;">
+	       	<%= text_field_tag :search, params[:search], :id => 'search_field', style: 'margin-bottom: 0px;', type:'search', placeholder: 'search articles' %>
+	       </div>
+	       <div style="float:right; padding-top: 10px;" >
+	            <%= button_tag(type: "submit", class: "btn btn-default") do %>
+	            	<i class="icon-search"></i>
+	            <% end %>
+	       </div>
+    	<% end %>
+	</div>
+</header>
+
 <div class="accordian">
 	<ul>
 	<% @articles_strip.each do |article| %>
@@ -13,33 +32,4 @@
 	</ul>
 </div>
 
-
-<%= will_paginate @articles %>
-<div id="home-article-list">
-	<ul class="home">
-	<% if @articles.count > 0 %>
-		<% @articles.each do |article| %>
-			<li>
-				<% if article.image_attachments.count > 0 %>
-					<a href="#"><%= link_to image_tag(article.image_attachments.first.image_url), article %></a>
-				<% end %>
-				<div class="article-title">
-					<a href=""><%= link_to (truncate article.title, length: 50), article, {:style => 'color: #3e433e;'} %></a>
-				</div>
-				<div class="by">
-					<p> by </p>
-				</div>
-				<div class="article-creator">
-					<p> <%= link_to article.user.username, article.user, {:style=>'color: #089e00;'} %> <%= time_ago_in_words(article.created_at) %> ago</p>
-				</div>
-				<div class="article-content">
-					<p>
-						<%= truncate article.content, length: 250 %> <%= link_to " Read more ", article, {:style=>'color: #089e00;'} %>
-					</p>
-				</div>
-			</li>
-		<% end %>
-	<% end %>
-	</ul>
-</div>
-<%= will_paginate @articles %>
+<div id="articles-list"><%= render 'articles_list' %></div>

@@ -26,7 +26,7 @@
 	        </div>
 	        <div class="show-username">
 	        	<p><%= @user.username %></p> 
-	        	<% if @user == current_user || current_user.admin? %>
+	        	<% if @user == current_user %>
 					<%= link_to edit_user_path(@user), class: "btn btn-primary", id: "edit-user-button" do %>
 					    Edit
 					<% end %>
@@ -53,28 +53,7 @@
 	  <div class="span8">
 	    <% if @article_comments.any? %>
 	      <h3>Article Comments (<%= @article_comments.count %>)</h3>
-	      <ol class="microposts">
-	        <li>
-			  <% @article_comments.each do |article_comment| %>
-			  	<% if article_comment.article == nil %>
-					<span class="title" style="color: red;">The Article was deleted</span>
-			  	<% else %>
-					<span class="title"><%= link_to article_comment.article.title, article_comment.article %></span>
-			  	<% end %>
-			  	<span class="content"><%= article_comment.content %></span>
-				  <span class="timestamp">
-				    Posted <%= time_ago_in_words(article_comment.created_at) %> ago. 
-					<% if article_comment.article != nil %>
-						| <%= link_to delete_article_article_comment_path(article_comment.article, article_comment), class: "btn btn-danger btn-small", method: :delete,
-                                            data: { confirm: "You sure?" } do%>
-                            Delete
-                         <% end %>
-					<% end %>
-				  </span>	
-			  <% end %>
-			</li>
-	      </ol>
-	      <%= will_paginate @article_comments %>
+	      <div id="user-article-comments"><%= render 'user_article_comments' %></div>
 	    <% end %>
 	  </div>
 	  <aside class="span4">
@@ -84,28 +63,7 @@
 	  <div class="span8">
 	    <% if @game_comments.any? %>
 	      <h3>Game Comments (<%= @game_comments.count %>)</h3>
-	      <ol class="microposts">
-	        <li>
-			  <% @game_comments.each do |game_comment| %>
-			    <% if game_comment.game == nil %>
-					<span class="title" style="color: red;">The Game was deleted</span>
-			  	<% else %>
-					<span class="title"><%= link_to game_comment.game.name, game_comment.game %></span>
-			  	<% end %>
-			  	<span class="content"><%= game_comment.content %></span>
-				  <span class="timestamp">
-				    Posted <%= time_ago_in_words(game_comment.created_at) %> ago.
-				    <% if game_comment.game != nil %>
-						| <%= link_to delete_game_game_comment_path(game_comment.game, game_comment), class: "btn btn-danger btn-small", method: :delete,
-			                              data: { confirm: "You sure?" } do%>
-			              Delete
-	                   <% end %>
-				    <% end %>
-				  </span>	
-			  <% end %>
-			</li>
-	      </ol>
-		  <%= will_paginate @game_comments %>
+	      <div id="user-game-comments"><%= render 'user_game_comments' %></div>
 	    <% end %>
 	  </div>
 	</div>

@@ -8,9 +8,13 @@ class ArticleCommentsController < ApplicationController
   def create
     @article = Article.find(params[:article_id])
   	@article_comment = current_user.article_comments.build(article_comment_params)
+    @article_comments = @article.article_comments
     @article_comment.article_id = @article.id
     if @article_comment.save
-      redirect_to @article
+      respond_to do |format|
+        format.html { redirect_to @article }
+        format.js
+      end
     else
       @article_comments = []
       redirect_to @article
@@ -18,18 +22,28 @@ class ArticleCommentsController < ApplicationController
   end
 
   def like
+    @article = Article.find(params[:article_id])
     @article_comment = ArticleComment.find(params[:id])
+    @article_comments = @article.article_comments
     if @article_comment.liked_by current_user
-      redirect_to @article_comment.article
+      respond_to do |format|
+        format.html { redirect_to @article_comment.article }
+        format.js
+      end
     else
       redirect_to '/signin'
     end
   end
 
   def unlike
+    @article = Article.find(params[:article_id])
     @article_comment = ArticleComment.find(params[:id])
+    @article_comments = @article.article_comments
     if @article_comment.unliked_by current_user
-      redirect_to @article_comment.article
+      respond_to do |format|
+        format.html { redirect_to @article_comment.article }
+        format.js
+      end
     else 
       redirect_to '/signin'
     end
@@ -37,8 +51,12 @@ class ArticleCommentsController < ApplicationController
 
   def destroy
     @article = Article.find(params[:article_id])
+    @article_comments = @article.article_comments
     ArticleComment.find(params[:id]).destroy
-    redirect_to @article
+    respond_to do |format|
+        format.html { redirect_to @article }
+        format.js
+    end
   end
 
   private

@@ -1,0 +1,18 @@
+<%= will_paginate @articles %>
+<ul id="index-user-article" class="users">
+	<% @articles.each do |article| %>
+		<li>
+			<% if article.image_attachments.count > 0 %>
+				<%= image_tag(article.image_attachments.first.image_url) %>
+			<% end %>
+			<%= link_to article.title, article %>
+			<% if current_user.admin? %>
+			   | <%= link_to article, class: "btn btn-danger", method: :delete,
+			                                  data: { confirm: "You sure?" } do%>
+			        Delete
+			     <% end %>
+			<% end %>
+		</li>
+	<% end %>
+</ul>
+<%= will_paginate @articles %>

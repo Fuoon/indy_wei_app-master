@@ -1,0 +1,22 @@
+<ol class="microposts">
+<li>
+  <% @game_comments.each do |game_comment| %>
+    <% if game_comment.game == nil %>
+		<span class="title" style="color: red;">The Game was deleted</span>
+  	<% else %>
+		<span class="title"><%= link_to game_comment.game.name, game_comment.game %></span>
+  	<% end %>
+  	<span class="content"><%= game_comment.content %></span>
+	  <span class="timestamp">
+	    Posted <%= time_ago_in_words(game_comment.created_at) %> ago.
+	    <% if game_comment.game != nil %>
+			| <%= link_to delete_game_game_comment_path(game_comment.game, game_comment), class: "btn btn-danger btn-small", method: :delete,
+                              data: { confirm: "You sure?" } do%>
+              Delete
+           <% end %>
+	    <% end %>
+	  </span>	
+  <% end %>
+</li>
+</ol>
+<%= will_paginate @game_comments, :param_name => 'game_page' %>
