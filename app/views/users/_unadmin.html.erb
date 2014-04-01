@@ -1,0 +1,5 @@
+<%= form_tag url_for(controller: "users", action: "admin"), method: "post", remote: true do %>
+	<%= button_tag(type: "submit", class: "btn btn-danger", id: "admin-button") do %>
+		UnAdmin
+	<% end %>
+<% end %>

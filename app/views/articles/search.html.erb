@@ -24,11 +24,13 @@
 				<%= image_tag(article.image_attachments.first.image_url) %>
 			<% end %>
 			<%= link_to article.title, article %>
-			<% if current_user.admin? %>
-			   | <%= link_to article, class: "btn btn-danger", method: :delete,
-			                                  data: { confirm: "You sure?" } do%>
-			        Delete
-			     <% end %>
+			<% if signed_in? %>
+				<% if current_user.admin? %>
+				   | <%= link_to article, class: "btn btn-danger", method: :delete,
+				                                  data: { confirm: "You sure?" } do%>
+				        Delete
+				     <% end %>
+				<% end %>
 			<% end %>
 		</li>
 		<% end %>

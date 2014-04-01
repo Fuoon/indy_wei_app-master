@@ -1,0 +1,5 @@
+<% if @user.admin? %>
+	<%= render 'unadmin' %>
+<% else %>
+	<%= render 'admin' %>
+<% end %>

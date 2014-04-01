@@ -10,7 +10,10 @@ class UsersController < ApplicationController
   def admin
     @user = User.find(params[:id])
     @user.toggle!(:admin)
-    redirect_to @user
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.js
+    end
   end
 
   def search
@@ -33,7 +36,10 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      respond_to do |format|
+        format.html { redirect_to @user }
+        format.js
+      end
     else
       render 'new'
     end
@@ -53,7 +59,10 @@ class UsersController < ApplicationController
 
   def destroy
     User.find(params[:id]).destroy
-    redirect_to users_url
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.js
+    end
   end
 
   private

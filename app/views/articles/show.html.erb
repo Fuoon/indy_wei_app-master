@@ -18,14 +18,20 @@
     <% end %>
   </div>
   <div class="article-image">
-    <% if @article.image_attachments.count > 0 %>
+    <% if @article.image_attachments.count > 1 %>
       <div id="myCarousel" class="carousel slide">
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
           <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>
-          <li data-target="#myCarousel" data-slide-to="3"></li>
-          <li data-target="#myCarousel" data-slide-to="4"></li>
+          <% if @article.image_attachments.count > 2 %>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+          <% end %>
+          <% if @article.image_attachments.count > 3 %>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+          <% end %>
+          <% if @article.image_attachments.count > 4 %>
+            <li data-target="#myCarousel" data-slide-to="4"></li>
+          <% end %>
         </ol>
         <div class="carousel-inner">
           <div class="active item">
@@ -56,6 +62,10 @@
         <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
         <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
       </div>
+    <% else %>
+      <div id="one-article-image" style="margin-left: 30px">
+        <%= image_tag @image_attachments.first.image_url %>
+      </div>
     <% end %>
   </div>
   <div class="article-content">
@@ -77,8 +87,6 @@
     <% end %>
     <%= render 'article_comment_form', article_comments_data: @article_comments %>
 </div>
-
-
   
   
     

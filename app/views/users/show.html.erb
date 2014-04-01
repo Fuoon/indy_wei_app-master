@@ -31,19 +31,11 @@
 					    Edit
 					<% end %>
 	        	<% end %>
-				<% if current_user.admin? && current_user != @user %>
-					<% if @user.admin? %>
-						<%= form_tag url_for(controller: "users", action: "admin"), method: "post" do %>
-							<%= button_tag(type: "submit", class: "btn btn-danger", id: "admin-button") do %>
-								UnAdmin
-							<% end %>
-						<% end %>
-					<% else %>
-						<%= form_tag url_for(controller: "users", action: "admin"), method: "post" do %>
-							<%= button_tag(type: "submit", class: "btn btn-success", id: "admin-button") do %>
-								Admin
-							<% end %>
-						<% end %>
+				<% if signed_in? %>
+					<% if current_user.admin? && current_user != @user %>
+						<div id="admin-btn">
+							<%= render 'make_admin_form' %>
+						</div>
 					<% end %>
 				<% end %>
 	        </div>
@@ -109,14 +101,23 @@
 		<div id="uploaded-games">
 			<div class="uploaded-game-image">
 			    <% if @uploaded_games.count > 0 %>
-				    	<h3>Shared Games (<%= @uploaded_games.count %>)</h3>
+				  <% if @uploaded_games.count > 1 %>
+					<h3>Shared Games (<%= @uploaded_games.count %>)</h3>
 				      <div id="myCarousel" class="carousel slide">
 				        <ol class="carousel-indicators">
 				          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				          <li data-target="#myCarousel" data-slide-to="1"></li>
-				          <li data-target="#myCarousel" data-slide-to="2"></li>
-				          <li data-target="#myCarousel" data-slide-to="3"></li>
-				          <li data-target="#myCarousel" data-slide-to="4"></li>
+				          <% if @uploaded_games.count > 1 %>
+							<li data-target="#myCarousel" data-slide-to="1"></li>
+				          <% end %>
+				          <% if @uploaded_games.count > 2 %>
+							<li data-target="#myCarousel" data-slide-to="2"></li>
+				          <% end %>
+				          <% if @uploaded_games.count > 3 %>
+							<li data-target="#myCarousel" data-slide-to="3"></li>
+				          <% end %>
+				          <% if @uploaded_games.count > 4 %>
+							<li data-target="#myCarousel" data-slide-to="4"></li>
+				          <% end %>
 				        </ol>
 				        <div class="carousel-inner">
 				          <div class="active item">
@@ -162,9 +163,13 @@
 				        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
 				        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 				      </div>
-				    <% end %>
-				  </div>
-				</div>
+				  <% else %>
+				  	<h3>Shared Games (<%= @uploaded_games.count %>)</h3>
+					<%= link_to image_tag(@uploaded_games.first.image_attachments.first.image_url), @uploaded_games.first %>
+				  <% end %>
+			    <% end %>
+			  </div>
+			</div>
 			<% end %>
 			<% if @uploaded_games.count > 4 && @user == current_user %>
 				<%= link_to uploaded_games_path(@user), class: "btn btn-primary btn-large", id: "show-all-uploaded-games" do %>

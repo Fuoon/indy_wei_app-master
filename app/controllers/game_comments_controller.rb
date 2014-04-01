@@ -56,6 +56,24 @@ class GameCommentsController < ApplicationController
         end 
 	end
 
+	def edit
+	    @game_comment = GameComment.find(params[:id])
+	    @game = @game_comment.game
+	  end
+
+	  def update 
+	    @game_comment = GameComment.find(params[:id])
+	    if @game_comment.update_attributes(game_comment_params)
+	        respond_to do |format|
+	        	format.html { redirect_to @game_comment.game }
+	        	format.js
+	        end 
+	    else
+	        flash[:success] = "Unsuccessful edit"
+	        redirect_to @game_comment.game
+	    end
+	  end
+
 	private 
 
 		def game_comment_params

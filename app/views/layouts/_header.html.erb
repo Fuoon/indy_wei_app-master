@@ -20,11 +20,19 @@
 									<i class="icon-star icon-black"></i>Games
 	              				<% end %>
 	              			</li>
-	              			<li>
-	              				<%= link_to new_game_path do %>
-									<i class="icon-file icon-black"></i>Share a Game	
-	              				<% end %>
-	              			</li>
+	              			<% if signed_in? %>
+								<li>
+		              				<%= link_to new_game_path do %>
+										<i class="icon-file icon-black"></i>Share a Game	
+		              				<% end %>
+		              			</li>
+	              			<% else %>
+	              				<li>
+		              				<%= link_to signin_path do %>
+										<i class="icon-file icon-black"></i>Share a Game
+		              				<% end %>
+	              				</li>
+	              			<% end %>
 	              		</ul>
             	</li>
 		        <li>

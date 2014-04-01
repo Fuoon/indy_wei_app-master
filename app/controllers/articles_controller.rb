@@ -20,8 +20,8 @@ class ArticlesController < ApplicationController
     @image_attachments = @article.image_attachments.all
     @article_comments = @article.article_comments.paginate(page: params[:page], :per_page => 25)
     @articles = Article.all 
-    @next_article = @articles[@articles.index(@article) + 1]
-    @previous_article = @articles[@articles.index(@article) - 1]
+    @next_article = @articles[@articles.index(@article) - 1]
+    @previous_article = @articles[@articles.index(@article) + 1]
   end
 
   def create

@@ -17,7 +17,7 @@ class ArticleCommentsController < ApplicationController
       end
     else
       @article_comments = []
-      redirect_to @article
+      redirect_to '/signin'
     end
   end
 
@@ -56,6 +56,28 @@ class ArticleCommentsController < ApplicationController
     respond_to do |format|
         format.html { redirect_to @article }
         format.js
+    end
+  end
+
+  def edit
+    @article = Article.find(params[:article_id])
+    @article_comment = ArticleComment.find(params[:id])
+    @article = @article_comment.article
+    @article_comments = @article.article_comments
+  end
+
+  def update 
+    @article = Article.find(params[:article_id])
+    @article_comment = ArticleComment.find(params[:id])
+    @article_comments = @article.article_comments
+    if @article_comment.update_attributes(article_comment_params)
+        respond_to do |format|
+          format.html { redirect_to @article_comment.article }
+          format.js
+        end 
+    else
+        flash[:success] = "Unsuccessful edit"
+        redirect_to @article_comment.article
     end
   end
 
